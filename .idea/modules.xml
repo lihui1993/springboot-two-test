@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/springboot-two-test.iml" filepath="$PROJECT_DIR$/springboot-two-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-two-test-dal/springboot-two-test-dal.iml" filepath="$PROJECT_DIR$/springboot-two-test-dal/springboot-two-test-dal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-two-test-web/springboot-two-test-web.iml" filepath="$PROJECT_DIR$/springboot-two-test-web/springboot-two-test-web.iml" />
+    </modules>
+  </component>
+</project>
