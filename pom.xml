@@ -82,6 +82,14 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<!--指定编译java文件的jdk版本是1.8-->
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
 					<executions>
