@@ -1,12 +1,21 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
 import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.service.impl.CustomUserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.AbstractTemplateResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+
+import javax.servlet.ServletContext;
 
 /**
  *关于spring security 的配置
@@ -22,6 +31,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public CustomUserServiceImpl customUserService(){
         return new CustomUserServiceImpl();
     }
+    @Bean
+    public  MySecurityProvider mySecurityProvider(){
+        return new MySecurityProvider();
+    }
     /**
      * 将注册的自定义的认证用户加入到spring security
      * @param auth 认证管理者
@@ -30,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserService());
+        auth.authenticationProvider(mySecurityProvider());
     }
 
     /**
