@@ -1,4 +1,4 @@
-package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.service.impl;
+package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication;
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.dao.SysUser;
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.repository.SysUserRepository;
@@ -16,7 +16,7 @@ import java.util.List;
  *自定义的认证用户信息，需要实现UserDetailsService接口
  * @author lihui 2017 12 26
  */
-public class CustomUserServiceImpl implements UserDetailsService {
+public class CustomUserServiceAuthentication implements UserDetailsService {
     @Autowired
     private SysUserRepository sysUserRepository;
 

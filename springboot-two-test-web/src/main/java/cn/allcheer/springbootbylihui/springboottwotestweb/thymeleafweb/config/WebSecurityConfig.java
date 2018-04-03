@@ -1,21 +1,14 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
-import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.service.impl.CustomUserServiceImpl;
+import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.CustomUserServiceAuthentication;
+import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.SecurityAuthSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.AbstractTemplateResolver;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
-import javax.servlet.ServletContext;
 
 /**
  *关于spring security 的配置
@@ -23,13 +16,16 @@ import javax.servlet.ServletContext;
  */
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private SecurityAuthSuccessHandler securityAuthSuccessHandler;
     /**
      * 注册自定义的认证用户bean
      * @return 自定义的认证用户实现类
      */
     @Bean
-    public CustomUserServiceImpl customUserService(){
-        return new CustomUserServiceImpl();
+    public CustomUserServiceAuthentication customUserService(){
+        return new CustomUserServiceAuthentication();
     }
     /**
      * 将注册的自定义的认证用户加入到spring security
@@ -55,7 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .loginPage("/login")
                     .failureUrl("/login?error")
-                    .defaultSuccessUrl("/")
+                    .successHandler(securityAuthSuccessHandler)
+//                    .defaultSuccessUrl("/")
                     .permitAll()
 //                定制注销行为
                 .and()
