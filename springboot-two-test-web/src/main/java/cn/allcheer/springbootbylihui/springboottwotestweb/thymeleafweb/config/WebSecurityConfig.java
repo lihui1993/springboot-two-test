@@ -31,10 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public CustomUserServiceImpl customUserService(){
         return new CustomUserServiceImpl();
     }
-    @Bean
-    public  MySecurityProvider mySecurityProvider(){
-        return new MySecurityProvider();
-    }
     /**
      * 将注册的自定义的认证用户加入到spring security
      * @param auth 认证管理者
@@ -43,7 +39,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserService());
-        auth.authenticationProvider(mySecurityProvider());
     }
 
     /**
