@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
 /**
  *关于spring security 的配置
@@ -19,6 +22,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SecurityAuthSuccessHandler securityAuthSuccessHandler;
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
     /**
      * 注册自定义的认证用户bean
      * @return 自定义的认证用户实现类
@@ -51,8 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .loginPage("/login")
                     .failureUrl("/login?error")
-                    .successHandler(securityAuthSuccessHandler)
-//                    .defaultSuccessUrl("/")
+//                    .successHandler(securityAuthSuccessHandler)
+                    .defaultSuccessUrl("/")
                     .permitAll()
 //                定制注销行为
                 .and()

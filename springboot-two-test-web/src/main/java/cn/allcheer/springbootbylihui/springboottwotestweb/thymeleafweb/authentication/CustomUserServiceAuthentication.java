@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,8 @@ public class CustomUserServiceAuthentication implements UserDetailsService {
     @Autowired
     private SysUserRepository sysUserRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     /**
      * 查找认证用户信息
      * @param username 用户姓名
@@ -35,6 +38,6 @@ public class CustomUserServiceAuthentication implements UserDetailsService {
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>(0);
         sysUser.getRoles().stream().forEach(sysRole -> grantedAuthorityList.add(new SimpleGrantedAuthority(sysRole.getRoleName())));
         //
-        return new User(sysUser.getUserName(),sysUser.getPassWord(), grantedAuthorityList);
+        return new User(sysUser.getUserName(), passwordEncoder.encode(sysUser.getPassWord()), grantedAuthorityList);
     }
 }
