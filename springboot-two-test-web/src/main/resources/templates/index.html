@@ -40,6 +40,22 @@
             <div sec:authorize="hasRole('ROLE_USER')">
                 <p class="bg-info">无更多信息显示</p>
             </div>
+            <div >
+                Authentication().getDetails():=======
+                <p class="bg-info" th:text="${#authorization.getAuthentication().getDetails()}">无更多信息显示</p>
+            </div>
+            <div >
+                Authentication().getPrincipal():=======
+                <p class="bg-info" th:text="${#authorization.getAuthentication().getPrincipal()}">无更多信息显示</p>
+            </div>
+            <div >
+                Authentication().getName():=======
+                <p class="bg-info" th:text="${#authorization.getAuthentication().getName()}">无更多信息显示</p>
+            </div>
+            <div >
+                Authentication():=======
+                <p class="bg-info" th:text="${#authorization.getAuthentication().toString()}">无更多信息显示</p>
+            </div>
             <form th:action="@{~/logout}" method="post">
                 <input type="submit" class="btn btn-primary" value="注销"/>
             </form>
