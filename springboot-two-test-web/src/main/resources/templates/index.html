@@ -40,6 +40,9 @@
             <div sec:authorize="hasRole('ROLE_USER')">
                 <p class="bg-info">无更多信息显示</p>
             </div>
+            <div sec:authorize="hasPermission('/CE_SHI','')">
+                <p class="bg-info">/CE_SHI ====URL</p>
+            </div>
             <div >
                 Authentication().getDetails():=======
                 <p class="bg-info" th:text="${#authorization.getAuthentication().getDetails()}">无更多信息显示</p>

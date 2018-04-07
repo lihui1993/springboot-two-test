@@ -4,9 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,9 +17,12 @@ public class SysRole {
      */
     @Id
     @GeneratedValue
-    private long id;
+    private Integer id;
     /**
      * 角色名称
      */
     private String roleName;
+
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    private List<SysResource> resources;
 }

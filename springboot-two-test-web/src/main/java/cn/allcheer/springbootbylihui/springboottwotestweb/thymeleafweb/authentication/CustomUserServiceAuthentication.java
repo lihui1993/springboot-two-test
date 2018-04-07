@@ -5,7 +5,6 @@ import cn.allcheer.springbootbylihui.springboottwotestdal.domain.repository.SysU
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,8 +35,15 @@ public class CustomUserServiceAuthentication implements UserDetailsService {
             throw new UsernameNotFoundException("用户未找到！！");
         }
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>(0);
-        sysUser.getRoles().stream().forEach(sysRole -> grantedAuthorityList.add(new SimpleGrantedAuthority(sysRole.getRoleName())));
+        List<String> roleResource=new ArrayList<>(0);
+
+        sysUser.getRoles().stream().forEach(sysRole -> {
+            grantedAuthorityList.add(new SimpleGrantedAuthority(sysRole.getRoleName()));
+            sysRole.getResources().stream().forEach(sysResource -> roleResource.add(sysResource.getResourceUrl()));
+        });
         //
-        return new User(sysUser.getUserName(), passwordEncoder.encode(sysUser.getPassWord()), grantedAuthorityList);
+        MyCustomUser myCustomUser=new MyCustomUser(sysUser.getUserName(), passwordEncoder.encode(sysUser.getPassWord()), grantedAuthorityList);
+        myCustomUser.setRoleResource(roleResource);
+        return myCustomUser;
     }
 }
