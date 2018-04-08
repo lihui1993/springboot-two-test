@@ -7,6 +7,11 @@ import org.springframework.security.access.expression.method.MethodSecurityExpre
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 
+/**
+ * 这个是作用在方法的注解上使用自定义的@hasPermision()
+ * 一般用在Controller的方法上
+ * @author lihui
+ */
 @EnableGlobalMethodSecurity
 public class MyMethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
@@ -24,4 +29,5 @@ public class MyMethodSecurityConfig extends GlobalMethodSecurityConfiguration {
         return defaultMethodSecurityExpressionHandler;
 //        return super.createExpressionHandler();
     }
+
 }
