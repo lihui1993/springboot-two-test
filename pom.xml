@@ -73,33 +73,24 @@
 					</executions>
 				</plugin>
 				<!--配置分类器，使dal模块能作为web模块的依赖-->
-				<plugin>
-					<artifactId>maven-jar-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>exec</id>
-							<phase>package</phase>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-							<configuration>
-								<classifier>exec</classifier>
-							</configuration>
-						</execution>
-						<execution>
-							<phase>package</phase>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-							<configuration>
-								<forceCreation>true</forceCreation>
-								<excludes>
-									<exclude>cn.allcheer.springbootbylihui.springboottwotestdal.SpringbootTwoTestDalApplication</exclude>
-								</excludes>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>exec</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                            <configuration>
+                                <classifier>exec</classifier>
+                                <excludes>
+                                    <exclude>cn.allcheer.springbootbylihui.springboottwotestdal.domain.SpringbootTwoTestDalApplication</exclude>
+                                </excludes>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

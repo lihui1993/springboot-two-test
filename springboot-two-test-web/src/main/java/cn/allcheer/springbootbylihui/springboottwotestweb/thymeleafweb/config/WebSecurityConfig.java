@@ -84,6 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                     .loginPage("/login")
+                    .loginProcessingUrl("/myauth/login")
                     .failureUrl("/login?error")
 //                     登录认证成功后的处理方法类
 //                    .successHandler(securityAuthSuccessHandler)
