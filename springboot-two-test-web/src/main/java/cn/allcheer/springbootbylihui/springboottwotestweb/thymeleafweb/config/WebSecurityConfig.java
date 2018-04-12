@@ -76,27 +76,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                将重新定义过的WebSecurity表达式处理类告诉给HttpSecurity，这样最终在页面使用SpringSecurity方言的hasPermision()时才会有效
-                .expressionHandler(defaultWebSecurityExpressionHandler())
-//                任何请求都需要认证
-                .anyRequest().authenticated()
-//                定制登录行为
+//          将重新定义过的WebSecurity表达式处理类告诉给HttpSecurity，这样最终在页面使用SpringSecurity方言的hasPermision()时才会有效
+            .expressionHandler(defaultWebSecurityExpressionHandler())
+            .antMatchers("/volidatGetCode").permitAll()
+//          任何请求都需要认证
+            .anyRequest().authenticated()
+            .and()
+//          定制登录行为
+            .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/myauth/login")
+                .failureUrl("/login?error")
+//               登录认证成功后的处理方法类
+//              .successHandler(securityAuthSuccessHandler)
+//               登录成功后的访问的资源 如果与上面的AuthenticationSuccessHandler都配置了，只会有一种配置生效
+                .defaultSuccessUrl("/")
+                .permitAll()
                 .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/myauth/login")
-                    .failureUrl("/login?error")
-//                     登录认证成功后的处理方法类
-//                    .successHandler(securityAuthSuccessHandler)
-//                     登录成功后的访问的资源 如果与上面的AuthenticationSuccessHandler都配置了，只会有一种配置生效
-                    .defaultSuccessUrl("/")
-                    .permitAll()
-//                定制注销行为
-                .and()
-                .logout()
-//                注销后清除认证信息
-                .clearAuthentication(true)
-                .permitAll();
+//          定制注销行为
+            .logout()
+//          注销后清除认证信息
+            .clearAuthentication(true)
+            .permitAll();
     }
 
     /**
