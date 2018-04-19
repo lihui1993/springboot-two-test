@@ -1,6 +1,7 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
 import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.CustomUserServiceAuthentication;
+import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.LoginValidateFliter;
 import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.MyPermissionEvaluator;
 import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.SecurityAuthSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  *关于spring security 的配置
@@ -75,7 +77,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+            .addFilterBefore(new LoginValidateFliter(), UsernamePasswordAuthenticationFilter.class)
+            .authorizeRequests()
 //          将重新定义过的WebSecurity表达式处理类告诉给HttpSecurity，这样最终在页面使用SpringSecurity方言的hasPermision()时才会有效
             .expressionHandler(defaultWebSecurityExpressionHandler())
             .antMatchers("/volidatGetCode").permitAll()
