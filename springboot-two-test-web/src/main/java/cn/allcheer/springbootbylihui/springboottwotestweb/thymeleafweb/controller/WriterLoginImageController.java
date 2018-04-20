@@ -2,13 +2,13 @@ package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.controll
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImageCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
@@ -20,12 +20,14 @@ import java.util.Random;
 public class WriterLoginImageController {
 
 
-    @GetMapping("/volidatGetCode")
+    @RequestMapping("/volidatGetCode")
     public void writerImageVolidataCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        log.info("请求到了图片验证码生成的headler");
         LoginImageCode loginImageCode=createVolidataImageCode();
-        HttpSession session = request.getSession();
-        session.setAttribute("loginImageCode",loginImageCode);
-        ImageIO.write((RenderedImage) loginImageCode.getVolidatImage(),"loginImage",response.getOutputStream());
+        request.getSession().setAttribute("loginImageCode",loginImageCode);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        ImageIO.write((RenderedImage) loginImageCode.getVolidatImage(),"jpeg",response.getOutputStream());
+        log.info("请求图片验证码生成结束");
     }
 
     private LoginImageCode createVolidataImageCode() {
