@@ -4,6 +4,7 @@ import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImag
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.imageio.ImageIO;
@@ -39,7 +40,7 @@ public class WriterLoginImageController {
 
         graphics.setColor(getRandColor(200, 250));
         graphics.fillRect(0, 0, width, height);
-        graphics.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+        graphics.setFont(new Font("Times New Roman", Font.ITALIC, 40));
         graphics.setColor(getRandColor(160, 200));
         for (int i = 0; i < 155; i++) {
             int x = random.nextInt(width);
@@ -50,10 +51,18 @@ public class WriterLoginImageController {
         }
 
         StringBuffer sRand = new StringBuffer();
-        for (int i = 0; i < 4; i++) {
-            sRand.append(random.nextInt(10));
-            graphics.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
-            graphics.drawString(String.valueOf( random.nextInt(10) ), 13 * i + 6, 16);
+
+        for (int i = 0; 1 < 100; i++) {
+            char c= (char) random.nextInt(100);
+            if(sRand.length()==4){
+                break;
+            }
+            log.info("c is :{}",String.valueOf(c));
+            if(StringUtils.hasText( String.valueOf(c).trim() )){
+                sRand.append(c);
+                graphics.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
+                graphics.drawString(String.valueOf(c), 13 * i + 26, 36);
+            }
         }
 
         graphics.dispose();

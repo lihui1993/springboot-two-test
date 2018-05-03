@@ -22,6 +22,8 @@ public class LoginValidateFliter extends OncePerRequestFilter {
         if(httpServletRequest.getRequestURI().equals("/myauth/login")){
             if(checkTimeOut(loginImageCode) && checkValidateCode(loginImageCode,inputValidateCode)){
                 filterChain.doFilter(httpServletRequest,httpServletResponse);
+            }else{
+                httpServletResponse.sendRedirect("/login?error");
             }
         }else {
             filterChain.doFilter(httpServletRequest,httpServletResponse);
