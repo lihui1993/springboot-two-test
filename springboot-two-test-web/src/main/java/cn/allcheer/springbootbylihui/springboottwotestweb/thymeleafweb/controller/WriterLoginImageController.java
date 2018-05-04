@@ -52,8 +52,8 @@ public class WriterLoginImageController {
 
         StringBuffer sRand = new StringBuffer();
 
-        for (int i = 0; 1 < 100; i++) {
-            char c= (char) random.nextInt(100);
+        for (int i = 0; i < 4;) {
+            char c= (char) random.nextInt(97);
             if(sRand.length()==4){
                 break;
             }
@@ -61,7 +61,8 @@ public class WriterLoginImageController {
             if(StringUtils.hasText( String.valueOf(c).trim() )){
                 sRand.append(c);
                 graphics.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
-                graphics.drawString(String.valueOf(c), 13 * i + 26, 36);
+                graphics.drawString(String.valueOf(c), 43 * i + 36, 36);
+                ++i;
             }
         }
 
