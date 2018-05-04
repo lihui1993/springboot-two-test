@@ -53,9 +53,12 @@ public class WriterLoginImageController {
         StringBuffer sRand = new StringBuffer();
 
         for (int i = 0; i < 4;) {
-            char c= (char) random.nextInt(97);
+            char c= (char) random.nextInt(122);
             if(sRand.length()==4){
                 break;
+            }
+            if( !((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122 )) ){
+                continue;
             }
             log.info("c is :{}",String.valueOf(c));
             if(StringUtils.hasText( String.valueOf(c).trim() )){
