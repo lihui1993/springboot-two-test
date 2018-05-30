@@ -1,12 +1,18 @@
-package cn.allcheer.springbootbylihui.baofoo.Demo;
+package cn.allcherr.springboot.test.Demo;
 
-import cn.allcheer.springbootbylihui.baofoo.rsa.RsaCodingUtil;
-import cn.allcheer.springbootbylihui.baofoo.rsa.SignatureUtils;
-import cn.allcheer.springbootbylihui.baofoo.util.FormatUtil;
-import cn.allcheer.springbootbylihui.baofoo.util.HttpUtil;
-import cn.allcheer.springbootbylihui.baofoo.util.SecurityUtil;
+import cn.allcheer.springbootbylihui.springboottwotestweb.SpringbootTwoTestWebApplication;
+import cn.allcheer.springbootbylihui.utils.baofoo.rsa.RsaCodingUtil;
+import cn.allcheer.springbootbylihui.utils.baofoo.rsa.SignatureUtils;
+import cn.allcheer.springbootbylihui.utils.baofoo.util.FormatUtil;
+import cn.allcheer.springbootbylihui.utils.baofoo.util.HttpUtil;
+import cn.allcheer.springbootbylihui.utils.baofoo.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -18,10 +24,12 @@ import java.util.TreeMap;
  * @author dasheng(大圣)2
  * @date 2018年3月2日
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = SpringbootTwoTestWebApplication.class)
 @Slf4j
 public class ABolishBind{
-	
-	public static void main(String[] args) throws Exception {
+	@Test
+	public static void abolishBind() {
 		
 		String send_time=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//报文发送日期时间		
 		String  pfxpath ="D:\\CER_EN_DECODE\\AgreementPay\\bfkey_100025773@@200001173.pfx";//商户私钥        
@@ -30,10 +38,18 @@ public class ABolishBind{
         String AesKey = "4f66405c4f66405c";//商户自定义(可随机生成  AES key长度为=16位)
 		String dgtl_envlp = "01|"+AesKey;//使用接收方的公钥加密后的对称密钥，并做Base64转码，明文01|对称密钥，01代表AES[密码商户自定义]
 		log.info("密码dgtl_envlp："+dgtl_envlp);
-		dgtl_envlp = RsaCodingUtil.encryptByPubCerFile(SecurityUtil.Base64Encode(dgtl_envlp), cerpath);//公钥加密
+		try {
+			dgtl_envlp = RsaCodingUtil.encryptByPubCerFile(SecurityUtil.Base64Encode(dgtl_envlp), cerpath);//公钥加密
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		String ProtocolNo = "2018012510553720000117300110";//签约协议号（确认绑卡返回）
 		log.info("签约协议号："+ProtocolNo);
-		ProtocolNo = SecurityUtil.AesEncrypt(SecurityUtil.Base64Encode(ProtocolNo), AesKey);//先BASE64后进行AES加密
+		try {
+			ProtocolNo = SecurityUtil.AesEncrypt(SecurityUtil.Base64Encode(ProtocolNo), AesKey);//先BASE64后进行AES加密
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		log.info("签约协议号AES结果:"+ProtocolNo);
 
 		Map<String,String> DateArry = new TreeMap<String,String>();
@@ -49,19 +65,38 @@ public class ABolishBind{
 		
 		String SignVStr = FormatUtil.coverMap2String(DateArry);
 		log.info("SHA-1摘要字串："+SignVStr);
-		String signature = SecurityUtil.sha1X16(SignVStr, "UTF-8");//签名
+		String signature = null;//签名
+		try {
+			signature = SecurityUtil.sha1X16(SignVStr, "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		log.info("SHA-1摘要结果："+signature);
-		String Sign = SignatureUtils.encryptByRSA(signature, pfxpath, "100025773_286941");
+		String Sign = null;
+		try {
+			Sign = SignatureUtils.encryptByRSA(signature, pfxpath, "100025773_286941");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		log.info("RSA签名结果："+Sign);
 		DateArry.put("signature", Sign);//签名域
 		
 		String PostString  = HttpUtil.RequestForm("https://vgw.baofoo.com/cutpayment/protocol/backTransRequest", DateArry);
 		log.info("请求返回:"+PostString);
-		
-		Map<String, String> ReturnData = FormatUtil.getParm(PostString);
-		
+
+		Map<String, String> ReturnData = null;
+		try {
+			ReturnData = FormatUtil.getParm(PostString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		if(!ReturnData.containsKey("signature")){
-			throw new Exception("缺少验签参数！");
+			try {
+				throw new Exception("缺少验签参数！");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		String RSign=ReturnData.get("signature");
@@ -69,14 +104,27 @@ public class ABolishBind{
 		ReturnData.remove("signature");//需要删除签名字段		
 		String RSignVStr = FormatUtil.coverMap2String(ReturnData);
 		log.info("返回SHA-1摘要字串："+RSignVStr);
-		String RSignature = SecurityUtil.sha1X16(RSignVStr, "UTF-8");//签名
+		String RSignature = null;//签名
+		try {
+			RSignature = SecurityUtil.sha1X16(RSignVStr, "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		log.info("返回SHA-1摘要结果："+RSignature);
-		
-		if(SignatureUtils.verifySignature(cerpath,RSignature,RSign)){
-			log.info("Yes");//验签成功
+
+		try {
+			if(SignatureUtils.verifySignature(cerpath,RSignature,RSign)){
+                log.info("Yes");//验签成功
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		if(!ReturnData.containsKey("resp_code")){
-			throw new Exception("缺少resp_code参数！");
+			try {
+				throw new Exception("缺少resp_code参数！");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		if(ReturnData.get("resp_code").toString().equals("S")){
 			log.info("解绑成功！");

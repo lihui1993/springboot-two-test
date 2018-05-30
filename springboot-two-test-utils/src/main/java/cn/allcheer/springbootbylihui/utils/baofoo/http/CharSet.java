@@ -1,4 +1,4 @@
-package cn.allcheer.springbootbylihui.baofoo.http;
+package cn.allcheer.springbootbylihui.utils.baofoo.http;
 
 /**
   * 项目名称：baofoo-fopay-sdk-java

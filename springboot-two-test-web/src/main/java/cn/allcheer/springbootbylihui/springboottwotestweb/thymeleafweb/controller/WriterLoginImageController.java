@@ -1,7 +1,9 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.controller;
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImageCode;
+import cn.allcheer.springbootbylihui.utils.myproperties.MyConfigurationProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -16,10 +18,15 @@ import java.awt.image.RenderedImage;
 import java.io.IOException;
 import java.util.Random;
 
+/**
+ * @author lihui
+ */
 @Controller
 @Slf4j
 public class WriterLoginImageController {
 
+    @Autowired
+    private MyConfigurationProperties myConfigurationProperties;
 
     @RequestMapping("/volidatGetCode")
     public void writerImageVolidataCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -32,8 +39,8 @@ public class WriterLoginImageController {
     }
 
     private LoginImageCode createVolidataImageCode() {
-        int width=200;
-        int height=50;
+        int width=myConfigurationProperties.getMyVerificationCode().getLoginImageCodeWidth();
+        int height=myConfigurationProperties.getMyVerificationCode().getLoginImageCodeHeight();
         BufferedImage bufferedImage=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
         Graphics graphics=bufferedImage.getGraphics();
         Random random = new Random();
@@ -52,11 +59,8 @@ public class WriterLoginImageController {
 
         StringBuffer sRand = new StringBuffer();
 
-        for (int i = 0; i < 4;) {
+        for (int i = 0; i < myConfigurationProperties.getMyVerificationCode().getLoginImageCodeLength();) {
             char c= (char) random.nextInt(122);
-            if(sRand.length()==4){
-                break;
-            }
             if( !((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122 )) ){
                 continue;
             }
@@ -64,13 +68,13 @@ public class WriterLoginImageController {
             if(StringUtils.hasText( String.valueOf(c).trim() )){
                 sRand.append(c);
                 graphics.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
-                graphics.drawString(String.valueOf(c), 43 * i + 36, 36);
+                graphics.drawString(String.valueOf(c), myConfigurationProperties.getMyVerificationCode().getLoginImageCodeXBaseCoordinate() * i + 36, myConfigurationProperties.getMyVerificationCode().getLoginImageCodeYCoordinate());
                 ++i;
             }
         }
 
         graphics.dispose();
-        return  new LoginImageCode(bufferedImage,sRand.toString(),120);
+        return  new LoginImageCode(bufferedImage,sRand.toString(),myConfigurationProperties.getMyVerificationCode().getLoginImageCodeExpireTimeSecond());
     }
 
     private Color getRandColor(int fc, int bc) {

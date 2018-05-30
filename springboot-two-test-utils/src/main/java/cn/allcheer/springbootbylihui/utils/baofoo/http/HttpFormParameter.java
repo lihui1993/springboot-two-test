@@ -1,4 +1,4 @@
-package cn.allcheer.springbootbylihui.baofoo.http;
+package cn.allcheer.springbootbylihui.utils.baofoo.http;
 
 import java.io.Serializable;
 

@@ -1,6 +1,6 @@
-package cn.allcheer.springbootbylihui.baofoo.rsa;
+package cn.allcheer.springbootbylihui.utils.baofoo.rsa;
 
-import cn.allcheer.springbootbylihui.baofoo.util.FormatUtil;
+import cn.allcheer.springbootbylihui.utils.baofoo.util.FormatUtil;
 
 import java.security.KeyFactory;
 import java.security.PrivateKey;

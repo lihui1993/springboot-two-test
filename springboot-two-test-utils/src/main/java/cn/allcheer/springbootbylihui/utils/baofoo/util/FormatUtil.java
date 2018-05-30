@@ -1,4 +1,7 @@
-package cn.allcheer.springbootbylihui.baofoo.util;
+package cn.allcheer.springbootbylihui.utils.baofoo.util;
+
+import cn.allcheer.springbootbylihui.utils.myproperties.MyConfigurationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;

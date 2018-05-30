@@ -1,4 +1,4 @@
-package cn.allcheer.springbootbylihui.baofoo.http;
+package cn.allcheer.springbootbylihui.utils.baofoo.http;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;

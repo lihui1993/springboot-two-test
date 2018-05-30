@@ -3,15 +3,21 @@
  * @author dasheng(大圣)
  * @date 2018年1月26日
  */
-package cn.allcheer.springbootbylihui.baofoo.Demo;
+package cn.allcherr.springboot.test.Demo;
 
-import cn.allcheer.springbootbylihui.baofoo.rsa.SignatureUtils;
-import cn.allcheer.springbootbylihui.baofoo.util.SecurityUtil;
+import cn.allcheer.springbootbylihui.springboottwotestweb.SpringbootTwoTestWebApplication;
+import cn.allcheer.springbootbylihui.utils.baofoo.rsa.SignatureUtils;
+import cn.allcheer.springbootbylihui.utils.baofoo.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = SpringbootTwoTestWebApplication.class)
 @Slf4j
 public class Testv{
-	public static void main(String[] args) throws Exception {
+	public static void main() throws Exception {
 			
 		log.info("AES"+ SecurityUtil.AesEncrypt("6217002290013105146|彭辰|310115199007121635|15823781632||", "4f66405c4f66405c"));
 

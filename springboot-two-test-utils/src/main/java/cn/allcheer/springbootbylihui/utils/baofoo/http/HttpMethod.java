@@ -1,4 +1,4 @@
-package cn.allcheer.springbootbylihui.baofoo.http;
+package cn.allcheer.springbootbylihui.utils.baofoo.http;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;

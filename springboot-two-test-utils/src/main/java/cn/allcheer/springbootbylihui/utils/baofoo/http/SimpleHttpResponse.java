@@ -1,6 +1,6 @@
-package cn.allcheer.springbootbylihui.baofoo.http;
+package cn.allcheer.springbootbylihui.utils.baofoo.http;
 
-import cn.allcheer.springbootbylihui.baofoo.util.HttpUtil;
+import cn.allcheer.springbootbylihui.utils.baofoo.util.HttpUtil;
 
 import java.io.Serializable;
 

@@ -1,55 +1,58 @@
 /**
- * @author Administrator
- *
+ * Company: www.baofu.com
+ * @author dasheng(大圣)
+ * @date 2018年1月25日
  */
-package cn.allcheer.springbootbylihui.baofoo.Demo;
+package cn.allcherr.springboot.test.Demo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
-import cn.allcheer.springbootbylihui.baofoo.rsa.RsaCodingUtil;
-import cn.allcheer.springbootbylihui.baofoo.rsa.SignatureUtils;
-import cn.allcheer.springbootbylihui.baofoo.util.FormatUtil;
-import cn.allcheer.springbootbylihui.baofoo.util.HttpUtil;
-import cn.allcheer.springbootbylihui.baofoo.util.SecurityUtil;
+import cn.allcheer.springbootbylihui.springboottwotestweb.SpringbootTwoTestWebApplication;
+import cn.allcheer.springbootbylihui.utils.baofoo.rsa.RsaCodingUtil;
+import cn.allcheer.springbootbylihui.utils.baofoo.rsa.SignatureUtils;
+import cn.allcheer.springbootbylihui.utils.baofoo.util.FormatUtil;
+import cn.allcheer.springbootbylihui.utils.baofoo.util.HttpUtil;
+import cn.allcheer.springbootbylihui.utils.baofoo.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = SpringbootTwoTestWebApplication.class)
 @Slf4j
-public class ConfirmSign {
+public class QueryBind{
 	/**
-	 * 确认绑卡（协议支付）
-	 * @param args
+	 * 绑卡查询
 	 * @throws Exception
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void main() throws Exception {
 		String send_time=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//报文发送日期时间		
 		String  pfxpath ="D:\\CER_EN_DECODE\\AgreementPay\\bfkey_100025773@@200001173.pfx";//商户私钥        
         String  cerpath = "D:\\CER_EN_DECODE\\AgreementPay\\bfkey_100025773@@200001173.cer";//宝付公钥
         
-        
-        String SMSStr="123456";//短信验证码，测试环境随机6位数;生产环境验证码预绑卡成功后发到用户手机。确认绑卡时回传。
-        
-        String AesKey = "4f66405c4f66405c";//商户自定义（可随机生成  商户自定义(AES key长度为=16位)）
+        String AesKey = "4f66405c4f66405c";////商户自定义（可随机生成  商户自定义(AES key长度为=16位)）
 		String dgtl_envlp = "01|"+AesKey;//使用接收方的公钥加密后的对称密钥，并做Base64转码，明文01|对称密钥，01代表AES[密码商户自定义]
-		
 		log.info("密码dgtl_envlp："+dgtl_envlp);
 		dgtl_envlp = RsaCodingUtil.encryptByPubCerFile(SecurityUtil.Base64Encode(dgtl_envlp), cerpath);//公钥加密
-		String UniqueCode = "201803221845403000550|"+SMSStr;//预签约唯一码(预绑卡返回的值)[格式：预签约唯一码|短信验证码]
-		log.info("预签约唯一码："+UniqueCode);
-		UniqueCode = SecurityUtil.AesEncrypt(SecurityUtil.Base64Encode(UniqueCode), AesKey);//先BASE64后进行AES加密
-		log.info("AES结果:"+UniqueCode);
+		String AccNo = "6222032010004709320";//银行卡号
+		log.info("银行卡号："+AccNo);
+		AccNo = SecurityUtil.AesEncrypt(SecurityUtil.Base64Encode(AccNo), AesKey);//先BASE64后进行AES加密
+		log.info("银行卡号AES结果:"+AccNo);
 
 		Map<String,String> DateArry = new TreeMap<String,String>();
 		DateArry.put("send_time", send_time);
 		DateArry.put("msg_id", "TISN"+System.currentTimeMillis());//报文流水号
 		DateArry.put("version", "4.0.0.0");
 		DateArry.put("terminal_id", "200001173");
-		DateArry.put("txn_type", "02");//交易类型
+		DateArry.put("txn_type", "03");//交易类型
 		DateArry.put("member_id", "100025773");
 		DateArry.put("dgtl_envlp", dgtl_envlp);
-		DateArry.put("unique_code", UniqueCode);//预签约唯一码
+		DateArry.put("user_id", "T11730011013");//用户在平台的唯一ID
+		DateArry.put("acc_no", "");//银行卡号密文[与user_id必须其中一个有值]
 		
 		String SignVStr = FormatUtil.coverMap2String(DateArry);
 		log.info("SHA-1摘要字串："+SignVStr);
@@ -90,13 +93,7 @@ public class ConfirmSign {
 			log.info("返回数字信封："+RDgtlEnvlp);
 			String RAesKey=FormatUtil.getAesKey(RDgtlEnvlp);//获取返回的AESkey
 			log.info("返回的AESkey:"+RAesKey);
-			log.info("签约协议号:"+SecurityUtil.Base64Decode(SecurityUtil.AesDecrypt(ReturnData.get("protocol_no"),RAesKey)));
-		}else if(ReturnData.get("resp_code").toString().equals("I")){	
-			log.info("处理中！");
-		}else if(ReturnData.get("resp_code").toString().equals("F")){
-			log.info("失败！");
-		}else{
-			throw new Exception("反回异常！");//异常不得做为订单状态。
+			log.info("协议列表:"+SecurityUtil.Base64Decode(SecurityUtil.AesDecrypt(ReturnData.get("protocols"),RAesKey)));
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package cn.allcheer.springbootbylihui.baofoo.util;
+package cn.allcheer.springbootbylihui.utils.baofoo.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

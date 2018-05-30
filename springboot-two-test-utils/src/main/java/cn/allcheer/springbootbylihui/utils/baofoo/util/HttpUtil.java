@@ -5,15 +5,13 @@
  * @author Administrator
  *
  */
-package cn.allcheer.springbootbylihui.baofoo.util;
+package cn.allcheer.springbootbylihui.utils.baofoo.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-
-import cn.allcheer.springbootbylihui.baofoo.http.*;
+import cn.allcheer.springbootbylihui.utils.baofoo.http.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
