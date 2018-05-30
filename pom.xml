@@ -88,7 +88,6 @@
                                 <classifier>exec</classifier>
                                 <excludes>
                                     <exclude>cn.allcheer.springbootbylihui.springboottwotestdal.domain.SpringbootTwoTestDalApplication</exclude>
-									<exclude>cn.allcheer.springbootbylihui.utils.SpringbootTwoTestUtilsApplication</exclude>
                                 </excludes>
                             </configuration>
                         </execution>

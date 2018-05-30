@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  *  <p>@EntityScan指定了ROM映射的实体的包路径</p>
  * @author lihui 2017 12 26
  */
-@Configuration
-@EnableJpaRepositories(basePackages = "cn.allcheer.springbootbylihui.springboottwotestdal.domain.repository")
-@EntityScan("cn.allcheer.springbootbylihui.springboottwotestdal.domain.dao")
+//@Configuration
+//@EnableJpaRepositories(basePackages = "cn.allcheer.springbootbylihui.springboottwotestdal.domain.repository")
+//@EntityScan("cn.allcheer.springbootbylihui.springboottwotestdal.domain.dao")
 public class DaoJpaRepositoryConfig {
 }
