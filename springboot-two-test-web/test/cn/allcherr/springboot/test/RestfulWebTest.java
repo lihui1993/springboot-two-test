@@ -18,8 +18,7 @@ public class RestfulWebTest {
     private TestRestTemplate restTemplate=new TestRestTemplate();
     @Test
     public void test1(){
-        String url = "http://localhost:"+6100+"/api/verifyCode/login";
-
+        String url = "http://192.168.2.69:"+6100+"/api/verifyCode/login";
         String reqJsonStr = "{\"header\":{\"service\":\"03\",\"inputCharset\":\"lihui\",\"requestDate\":\"20180515\",\"requestTime\":\"181809\",\"requestId\":\"89\"}},"+
                 "{\"body\":{\"mobNo\":\"13687352585\",\"verifyCode\":\"344556\",\"smsVcDate\":\"20180515\",\"smsVcId\":\"3444\",\"channel\":\"00\"}}";
         HttpHeaders headers = new HttpHeaders();
@@ -35,4 +34,7 @@ public class RestfulWebTest {
         String re=restTemplate.postForObject(url, entity,String.class);
         log.info("调用返回信息是：{}",re);
     }
+
+
+
 }

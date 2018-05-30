@@ -11,7 +11,8 @@
 	<modules>
 		<module>springboot-two-test-web</module>
 		<module>springboot-two-test-dal</module>
-	</modules>
+        <module>springboot-two-test-utils</module>
+    </modules>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
