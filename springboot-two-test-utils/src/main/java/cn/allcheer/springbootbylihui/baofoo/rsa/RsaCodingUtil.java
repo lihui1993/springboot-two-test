@@ -1,5 +1,7 @@
 package cn.allcheer.springbootbylihui.baofoo.rsa;
 
+import cn.allcheer.springbootbylihui.baofoo.util.FormatUtil;
+
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -11,7 +13,6 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import com.baofoo.util.FormatUtil;
 
 /**
  * <b>Rsa加解密工具</b><br>
@@ -66,7 +67,6 @@ public final class RsaCodingUtil {
 	 * 
 	 * @param src
 	 * @param publicKey
-	 * @param encryptMode
 	 * @return hex串
 	 */
 	public static String encryptByPublicKey(String src, PublicKey publicKey) {
@@ -103,7 +103,6 @@ public final class RsaCodingUtil {
 	 * 根据私钥文件流解密
 	 * 
 	 * @param src
-	 * @param pfxPath
 	 * @param priKeyPass
 	 * @return
 	 */
@@ -169,7 +168,6 @@ public final class RsaCodingUtil {
 	 * 根据私钥文件流加密
 	 * 
 	 * @param src
-	 * @param pfxPath
 	 * @param priKeyPass
 	 * @return
 	 */

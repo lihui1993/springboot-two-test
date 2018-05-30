@@ -13,15 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 
-import com.baofoo.http.HttpMethod;
-import com.baofoo.http.HttpSendModel;
-import com.baofoo.http.HttpFormParameter;
-import com.baofoo.http.SimpleHttpClient;
-import com.baofoo.http.SimpleHttpResponse;
-import com.baofoo.util.HttpUtil;
+import cn.allcheer.springbootbylihui.baofoo.http.*;
+import com.sun.deploy.net.HttpResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.omg.CORBA.NameValuePair;
 
-
+@Slf4j
 public class HttpUtil{
 	
 	public static String RequestForm(String Url,Map<String,String> Parms){		
@@ -39,7 +36,7 @@ public class HttpUtil{
 			}
 		}
 		HttpSendModel httpSendModel = new HttpSendModel(Url + "?" + PostParms);
-		Log.Write("【请求全部参数】：" + Url + "?" + PostParms);
+		log.info("【请求全部参数】：" + Url + "?" + PostParms);
 		httpSendModel.setMethod(HttpMethod.POST);
 		SimpleHttpResponse response = null;
 		try {
@@ -67,7 +64,6 @@ public class HttpUtil{
 	}
 
 	/**
-	 * @param httpclient
 	 * @param httpSendModel
 	 * @param getCharSet
 	 * @return

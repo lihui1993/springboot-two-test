@@ -1,5 +1,7 @@
 package cn.allcheer.springbootbylihui.baofoo.rsa;
 
+import cn.allcheer.springbootbylihui.baofoo.util.FormatUtil;
+
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -7,7 +9,6 @@ import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
-import com.baofoo.util.FormatUtil;
 
 /**
  * Created by BF100400 on 2017/4/17.

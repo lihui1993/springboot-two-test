@@ -3,16 +3,18 @@ package cn.allcheer.springbootbylihui.baofoo.util;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.commons.lang.StringUtils;
 
+import org.springframework.util.StringUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -273,5 +275,21 @@ public class SecurityUtil {
             return null;
         }
     }
-    
+	/**
+	 * 生成指定算法的密钥，如果需要固定长度的16进制字符密钥，可自行对生成的密钥截取
+	 * @param algorithm  生成密钥的算法，eg：aes等等
+	 * @param initKeySize 密钥的size， eg：aes的密钥size有128,192,256
+	 * @return 返回16进制字符密钥
+	 */
+	public static String createSecretKeyByAlgorithmAndKeySize(String algorithm,int initKeySize) throws NoSuchAlgorithmException {
+		try {
+			KeyGenerator keyGenerator=KeyGenerator.getInstance(algorithm);
+			keyGenerator.init(initKeySize);
+			SecretKey secretKey=keyGenerator.generateKey();
+			byte[] aesKey=secretKey.getEncoded();
+			return byte2Hex(aesKey);
+		} catch (NoSuchAlgorithmException e) {
+			throw e;
+		}
+	}
 }

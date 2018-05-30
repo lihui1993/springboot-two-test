@@ -1,8 +1,9 @@
 package cn.allcheer.springbootbylihui.baofoo.http;
 
+import cn.allcheer.springbootbylihui.baofoo.util.HttpUtil;
+
 import java.io.Serializable;
 
-import com.baofoo.util.HttpUtil;
 
 /**
  * 项目名称：baofoo-fopay-sdk-java

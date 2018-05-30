@@ -41,10 +41,12 @@ public final class FormatUtil {
 			// 判断小数情况。舍弃小数位
 			int stri = str.indexOf('.');
 			str = stri > 0 ? str.substring(0, stri) : str;
-			if (args.length > 1)
+			if (args.length > 1) {
 				def = Integer.parseInt(args[args.length - 1].toString());
-			if (isNumber(str))
+			}
+			if (isNumber(str)) {
 				return Integer.parseInt(str);
+			}
 		}
 		return def;
 	}
@@ -57,10 +59,12 @@ public final class FormatUtil {
 		Long def = 0L;
 		if (args != null) {
 			String str = toStringTrim(args[0]);
-			if (args.length > 1)
+			if (args.length > 1) {
 				def = Long.parseLong(args[args.length - 1].toString());
-			if (isNumber(str))
+			}
+			if (isNumber(str)) {
 				return Long.parseLong(str);
+			}
 		}
 		return def;
 	}
@@ -73,10 +77,12 @@ public final class FormatUtil {
 		double def = 0;
 		if (args != null) {
 			String str = toStringTrim(args[0]);
-			if (args.length > 1)
+			if (args.length > 1) {
 				def = Double.parseDouble(args[args.length - 1].toString());
-			if (isDecimal(str))
+			}
+			if (isDecimal(str)) {
 				return Double.parseDouble(str);
+			}
 		}
 		return def;
 	}
@@ -94,10 +100,11 @@ public final class FormatUtil {
 	 * 使用:toBoolean(值,默认值[选填])
 	 */
 	public static boolean toBoolean(String bool) {
-		if (isEmpty(bool) || (!bool.equals("1") && !bool.equalsIgnoreCase("true") && !bool.equalsIgnoreCase("ok")))
+		if (isEmpty(bool) || (!bool.equals("1") && !bool.equalsIgnoreCase("true") && !bool.equalsIgnoreCase("ok"))) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
 	/**
@@ -107,11 +114,13 @@ public final class FormatUtil {
 	public static String toString(Object... args) {
 		String def = "";
 		if (args != null) {
-			if (args.length > 1)
+			if (args.length > 1) {
 				def = toString(args[args.length - 1]);
+			}
 			Object obj = args[0];
-			if (obj == null)
+			if (obj == null) {
 				return def;
+			}
 			return obj.toString();
 		} else {
 			return def;
@@ -145,8 +154,9 @@ public final class FormatUtil {
 
 	/** 百分数 转 小数 */
 	public static Double toPercent2(String str) {
-		if (str.charAt(str.length() - 1) == '%')
+		if (str.charAt(str.length() - 1) == '%') {
 			return Double.parseDouble(str.substring(0, str.length() - 1)) / 100.0000d;
+		}
 		return 0d;
 	}
 
@@ -176,31 +186,36 @@ public final class FormatUtil {
 	/** String 转 Money */
 	public static String toMoney(Object str, String MoneyType) {
 		DecimalFormat df = new DecimalFormat(MoneyType);
-		if (isDecimal(str))
+		if (isDecimal(str)) {
 			return df.format(toDecimal(str)).toString();
+		}
 		return df.format(toDecimal("0.00")).toString();
 	}
 
 	/** 获取字符串str 左边len位数 */
 	public static String getLeft(Object obj, int len) {
 		String str = toString(obj);
-		if (len <= 0)
+		if (len <= 0) {
 			return "";
-		if (str.length() <= len)
+		}
+		if (str.length() <= len) {
 			return str;
-		else
+		} else {
 			return str.substring(0, len);
+		}
 	}
 
 	/** 获取字符串str 右边len位数 */
 	public static String getRight(Object obj, int len) {
 		String str = toString(obj);
-		if (len <= 0)
+		if (len <= 0) {
 			return "";
-		if (str.length() <= len)
+		}
+		if (str.length() <= len) {
 			return str;
-		else
+		} else {
 			return str.substring(str.length() - len, str.length());
+		}
 	}
 
 	/**
@@ -232,8 +247,9 @@ public final class FormatUtil {
 		List newList = new ArrayList();
 		for (Iterator iter = list.iterator(); iter.hasNext();) {
 			Object element = iter.next();
-			if (set.add(element))
+			if (set.add(element)) {
 				newList.add(element);
+			}
 		}
 		return newList;
 	}
@@ -267,8 +283,9 @@ public final class FormatUtil {
 	}
 
 	private static boolean NumberBo(int type, Object obj) {
-		if (isEmpty(obj))
+		if (isEmpty(obj)) {
 			return false;
+		}
 		int points = 0;
 		int chr = 0;
 		String str = toString(obj);
@@ -276,11 +293,14 @@ public final class FormatUtil {
 			chr = str.charAt(i);
 			if (chr < 48 || chr > 57) { // 判断数字
 				if (i == 0 && chr == 45) // 判断 - 号
+				{
 					return true;
+				}
 				if (i >= 0 && chr == 46 && type == 1) { // 判断 . 号
 					++points;
-					if (points <= 1)
+					if (points <= 1) {
 						continue;
+					}
 				}
 				return false;
 			}

@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.util.StringUtils;
 
 /**
  * 项目名称：baofoo-fopay-sdk-java
@@ -81,7 +81,7 @@ public class HttpSendModel implements Serializable {
 		charSet = CharSet.Default;
 		method = HttpMethod.getDefault();
 
-		if (StringUtils.isBlank(urlPath)) {
+		if (StringUtils.isEmpty(urlPath)) {
 			this.url = url;
 		} else {
 			if (!url.startsWith(urlPath)) {
@@ -108,7 +108,7 @@ public class HttpSendModel implements Serializable {
 	 * @param paramsString
 	 */
 	private void buildParams(String paramsString) {
-		if (StringUtils.isBlank(paramsString)) {
+		if (StringUtils.isEmpty(paramsString)) {
 			return;
 		}
 
