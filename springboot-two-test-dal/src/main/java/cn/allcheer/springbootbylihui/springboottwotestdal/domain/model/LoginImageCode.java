@@ -7,7 +7,7 @@ import java.awt.*;
 import java.time.LocalDateTime;
 
 /**
- * 登录图片验证码类
+ * 图片验证码类
  * @author lihui
  */
 @Getter

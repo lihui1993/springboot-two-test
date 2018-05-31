@@ -17,9 +17,9 @@ import java.time.LocalDateTime;
 public class LoginValidateFliter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        LoginImageCode loginImageCode = (LoginImageCode) httpServletRequest.getSession().getAttribute("loginImageCode");
-        String inputValidateCode = httpServletRequest.getParameter("volidatcode");
         if(httpServletRequest.getRequestURI().equals("/myauth/login")){
+            LoginImageCode loginImageCode = (LoginImageCode) httpServletRequest.getSession().getAttribute("loginVerificationImageCode");
+            String inputValidateCode = httpServletRequest.getParameter("volidatcode");
             if(checkTimeOut(loginImageCode) && checkValidateCode(loginImageCode,inputValidateCode)){
                 filterChain.doFilter(httpServletRequest,httpServletResponse);
             }else{
