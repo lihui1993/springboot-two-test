@@ -1,9 +1,10 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
 import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.CustomUserServiceAuthentication;
-import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.LoginValidateFliter;
+import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.LoginValidateFilter;
 import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.MyPermissionEvaluator;
 import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.SecurityAuthSuccessHandler;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 /**
  *关于spring security 的配置
@@ -29,7 +32,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private SecurityAuthSuccessHandler securityAuthSuccessHandler;
-
+    /**
+     * 为了实现记住我功能
+     */
+    @Autowired
+    private HikariDataSource dataSource;
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository(){
+        JdbcTokenRepositoryImpl jdbcTokenRepository=new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
+    }
     /**
      * 注入自定义的PermissionEvaluator
      */
@@ -78,7 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .addFilterBefore(new LoginValidateFliter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new LoginValidateFilter(), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
 //          将重新定义过的WebSecurity表达式处理类告诉给HttpSecurity，这样最终在页面使用SpringSecurity方言的hasPermision()时才会有效
             .expressionHandler(defaultWebSecurityExpressionHandler())
@@ -96,6 +109,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //               登录成功后的访问的资源 如果与上面的AuthenticationSuccessHandler都配置了，只会有一种配置生效
                 .defaultSuccessUrl("/")
                 .permitAll()
+                .and()
+//                添加记住我功能
+            .rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(300)
+                .userDetailsService(customUserService())
                 .and()
 //          定制注销行为
             .logout()

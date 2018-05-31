@@ -1,7 +1,7 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.controller;
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImageCode;
-import cn.allcheer.springbootbylihui.utils.verification.MyVerificationCodeI;
+import cn.allcheer.springbootbylihui.utils.verification.code.MyVerificationCodeI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

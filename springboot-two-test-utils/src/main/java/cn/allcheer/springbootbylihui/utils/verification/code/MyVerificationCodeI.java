@@ -1,4 +1,4 @@
-package cn.allcheer.springbootbylihui.utils.verification;
+package cn.allcheer.springbootbylihui.utils.verification.code;
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImageCode;
 

@@ -1,11 +1,10 @@
-package cn.allcheer.springbootbylihui.utils.verification.impl;
+package cn.allcheer.springbootbylihui.utils.verification.code.impl;
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImageCode;
 import cn.allcheer.springbootbylihui.utils.myproperties.MyConfigurationProperties;
-import cn.allcheer.springbootbylihui.utils.verification.MyVerificationCodeI;
+import cn.allcheer.springbootbylihui.utils.verification.code.MyVerificationCodeI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.awt.*;

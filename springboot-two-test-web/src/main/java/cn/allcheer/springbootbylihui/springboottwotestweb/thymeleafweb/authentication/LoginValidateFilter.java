@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 /**
  * @author lihui
  */
-public class LoginValidateFliter extends OncePerRequestFilter {
+public class LoginValidateFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         if(httpServletRequest.getRequestURI().equals("/myauth/login")){
             LoginImageCode loginImageCode = (LoginImageCode) httpServletRequest.getSession().getAttribute("loginVerificationImageCode");
-            String inputValidateCode = httpServletRequest.getParameter("volidatcode");
+            String inputValidateCode = httpServletRequest.getParameter("validateImageCode");
             if(checkTimeOut(loginImageCode) && checkValidateCode(loginImageCode,inputValidateCode)){
                 filterChain.doFilter(httpServletRequest,httpServletResponse);
             }else{
