@@ -34,5 +34,5 @@ public class MyImageVerificationCode {
     /**
      * 图片验证码的过期时间，以秒为单位
      */
-    private int loginImageCodeExpireTimeSecond=120;
+    private int loginImageCodeExpireTimeSecond=160;
 }

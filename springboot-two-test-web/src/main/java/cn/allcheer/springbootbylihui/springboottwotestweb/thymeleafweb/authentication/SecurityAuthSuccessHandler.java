@@ -17,9 +17,6 @@ import java.io.IOException;
 @Component
 public class SecurityAuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         super.onAuthenticationSuccess(request, response, authentication);

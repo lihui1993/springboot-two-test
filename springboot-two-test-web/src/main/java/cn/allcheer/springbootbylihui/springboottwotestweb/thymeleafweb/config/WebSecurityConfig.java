@@ -95,7 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
 //          将重新定义过的WebSecurity表达式处理类告诉给HttpSecurity，这样最终在页面使用SpringSecurity方言的hasPermision()时才会有效
             .expressionHandler(defaultWebSecurityExpressionHandler())
-            .antMatchers("/volidatGetCode").permitAll()
+            .antMatchers("/getValidateImageCode").permitAll()
 //          任何请求都需要认证
             .anyRequest().authenticated()
             .and()
@@ -103,11 +103,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/myauth/login")
-                .failureUrl("/login?error")
+                .failureUrl("/login?error=ture")
 //               登录认证成功后的处理方法类
-//              .successHandler(securityAuthSuccessHandler)
-//               登录成功后的访问的资源 如果与上面的AuthenticationSuccessHandler都配置了，只会有一种配置生效
-                .defaultSuccessUrl("/")
+                .successHandler(securityAuthSuccessHandler)
                 .permitAll()
                 .and()
 //                添加记住我功能

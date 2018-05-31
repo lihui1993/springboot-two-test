@@ -27,7 +27,6 @@ public class MyMethodSecurityConfig extends GlobalMethodSecurityConfiguration {
         DefaultMethodSecurityExpressionHandler defaultMethodSecurityExpressionHandler=new DefaultMethodSecurityExpressionHandler();
         defaultMethodSecurityExpressionHandler.setPermissionEvaluator(myPermissionEvaluator);
         return defaultMethodSecurityExpressionHandler;
-//        return super.createExpressionHandler();
     }
 
 }

@@ -2,6 +2,7 @@ package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authenti
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.dao.SysUser;
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.repository.SysUserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +17,7 @@ import java.util.List;
  *自定义的认证用户信息，需要实现UserDetailsService接口
  * @author lihui 2017 12 26
  */
+@Slf4j
 public class CustomUserServiceAuthentication implements UserDetailsService {
     @Autowired
     private SysUserRepository sysUserRepository;
@@ -30,6 +32,7 @@ public class CustomUserServiceAuthentication implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.info("查找用户----username：{}",username);
         SysUser sysUser=sysUserRepository.findByUserName(username);
         if(null==sysUser){
             throw new UsernameNotFoundException("用户未找到！！");

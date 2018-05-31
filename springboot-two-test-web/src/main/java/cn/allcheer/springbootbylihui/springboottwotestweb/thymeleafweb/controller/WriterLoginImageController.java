@@ -24,9 +24,10 @@ public class WriterLoginImageController {
     @Autowired
     private MyVerificationCodeI myVerificationCodeI;
 
-    @RequestMapping("/volidatGetCode")
+    @RequestMapping("/getValidateImageCode")
     public void writerImageVolidataCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         log.info("请求到了图片验证码生成的headler");
+        request.getSession().removeAttribute("loginVerificationImageCode");
         LoginImageCode loginImageCode= myVerificationCodeI.createVerificationCode();
         request.getSession().setAttribute("loginVerificationImageCode",loginImageCode);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);

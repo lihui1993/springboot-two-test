@@ -1,6 +1,7 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication;
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImageCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -14,16 +15,22 @@ import java.time.LocalDateTime;
 /**
  * @author lihui
  */
+@Slf4j
 public class LoginValidateFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+        log.info("url:{}",httpServletRequest.getRequestURI());
         if(httpServletRequest.getRequestURI().equals("/myauth/login")){
             LoginImageCode loginImageCode = (LoginImageCode) httpServletRequest.getSession().getAttribute("loginVerificationImageCode");
             String inputValidateCode = httpServletRequest.getParameter("validateImageCode");
+            log.info("-----开始校验图片验证码----");
+            log.info("-----用户输入：{}--系统中：{}",inputValidateCode,loginImageCode.getVolidatcode());
             if(checkTimeOut(loginImageCode) && checkValidateCode(loginImageCode,inputValidateCode)){
+                log.info("----校验图片验证码通过----");
                 filterChain.doFilter(httpServletRequest,httpServletResponse);
             }else{
-                httpServletResponse.sendRedirect("/login?error");
+                log.error("----校验图片验证码未通过----");
+                httpServletResponse.sendRedirect("/login?error=true");
             }
         }else {
             filterChain.doFilter(httpServletRequest,httpServletResponse);
@@ -32,19 +39,24 @@ public class LoginValidateFilter extends OncePerRequestFilter {
 
     private boolean checkTimeOut(LoginImageCode loginImageCode){
         LocalDateTime localDateTimeNow=LocalDateTime.now();
-        LocalDateTime localDateTime = loginImageCode.getExpireTime();
-        if(localDateTimeNow.getNano() < localDateTime.getNano()){
+        LocalDateTime localDateTimeExpire = loginImageCode.getExpireTime();
+        if(localDateTimeNow.isBefore(localDateTimeExpire)){
+            log.info("图片验证码未过期");
             return true;
+        }else {
+            log.info("图片验证码已过期");
+            return false;
         }
-        return false;
     }
 
     private boolean checkValidateCode(LoginImageCode loginImageCode,String inputValidateCode){
         if(StringUtils.hasText( inputValidateCode ) ){
-            if(loginImageCode.getVolidatcode().equals(inputValidateCode)){
+            if(loginImageCode.getVolidatcode().trim().equals(inputValidateCode.trim())){
+                log.info("图片验证码字符校验通过");
                 return true;
             }
         }
+        log.info("图片验证码字符校验未通过");
         return false;
     }
 }
