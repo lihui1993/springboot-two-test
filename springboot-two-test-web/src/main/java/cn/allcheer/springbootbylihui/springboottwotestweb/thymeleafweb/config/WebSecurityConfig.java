@@ -1,9 +1,6 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
-import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.CustomUserServiceAuthentication;
-import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.LoginValidateFilter;
-import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.MyPermissionEvaluator;
-import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.SecurityAuthSuccessHandler;
+import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.*;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private SecurityAuthSuccessHandler securityAuthSuccessHandler;
+    @Autowired
+    private SecurityAuthFailHandler securityAuthFailHandler;
     /**
      * 为了实现记住我功能
      */
@@ -95,7 +94,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
 //          将重新定义过的WebSecurity表达式处理类告诉给HttpSecurity，这样最终在页面使用SpringSecurity方言的hasPermision()时才会有效
             .expressionHandler(defaultWebSecurityExpressionHandler())
-            .antMatchers("/getValidateImageCode").permitAll()
+            .antMatchers("/getValidateImageCode","/login","/myauth/login").permitAll()
 //          任何请求都需要认证
             .anyRequest().authenticated()
             .and()
@@ -103,10 +102,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/myauth/login")
-                .failureUrl("/login?error=ture")
+                .failureHandler(securityAuthFailHandler)
 //               登录认证成功后的处理方法类
                 .successHandler(securityAuthSuccessHandler)
-                .permitAll()
                 .and()
 //                添加记住我功能
             .rememberMe()

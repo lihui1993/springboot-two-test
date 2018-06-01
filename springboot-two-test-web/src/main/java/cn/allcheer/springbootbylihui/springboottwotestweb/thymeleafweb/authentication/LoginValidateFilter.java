@@ -1,7 +1,11 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication;
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImageCode;
+import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.SimpleResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,6 +21,8 @@ import java.time.LocalDateTime;
  */
 @Slf4j
 public class LoginValidateFilter extends OncePerRequestFilter {
+
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         log.info("url:{}",httpServletRequest.getRequestURI());
@@ -30,7 +36,12 @@ public class LoginValidateFilter extends OncePerRequestFilter {
                 filterChain.doFilter(httpServletRequest,httpServletResponse);
             }else{
                 log.error("----校验图片验证码未通过----");
-                httpServletResponse.sendRedirect("/login?error=true");
+                SimpleResponse simpleResponse=new SimpleResponse();
+                simpleResponse.setState(300);
+                simpleResponse.setMsg("验证码错误");
+                httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
+                httpServletResponse.getWriter().write(new JSONObject(simpleResponse).toString());
+                httpServletResponse.getWriter().close();
             }
         }else {
             filterChain.doFilter(httpServletRequest,httpServletResponse);
