@@ -3,6 +3,7 @@ package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authenti
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.SimpleResponse;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,11 @@ public class SecurityAuthFailHandler extends SimpleUrlAuthenticationFailureHandl
             throws IOException, ServletException {
         SimpleResponse simpleResponse=new SimpleResponse();
         simpleResponse.setState(300);
-        simpleResponse.setMsg(exception.getMessage());
+        if(exception instanceof BadCredentialsException){
+            simpleResponse.setMsg("密码错误");
+        }else {
+            simpleResponse.setMsg(exception.getMessage());
+        }
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
         response.getWriter().write(new JSONObject(simpleResponse).toString());
         response.getWriter().close();
