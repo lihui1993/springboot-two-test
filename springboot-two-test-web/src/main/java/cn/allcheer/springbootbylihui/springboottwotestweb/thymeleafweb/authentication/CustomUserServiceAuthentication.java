@@ -4,7 +4,6 @@ import cn.allcheer.springbootbylihui.springboottwotestdal.domain.dao.SysUser;
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.repository.SysUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,9 +35,8 @@ public class CustomUserServiceAuthentication implements UserDetailsService {
         log.info("查找用户----username：{}",username);
         SysUser sysUser=sysUserRepository.findByUserName(username);
         if(null==sysUser){
-            log.error("用户未找到");
-//            解决spring security隐藏UsernameNotFoundException的问题
-            throw new BadCredentialsException("用户未找到！！");
+            log.error("用户不存在");
+            throw new UsernameNotFoundException("用户不存在");
         }
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>(0);
         List<String> roleResource=new ArrayList<>(0);

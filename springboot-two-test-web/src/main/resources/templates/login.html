@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header"  th:content="${_csrf.headerName}"/>
     <title>登录页面</title>
     <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet">
@@ -30,10 +32,10 @@
     </nav>
     <div class="container">
         <div class="starter-template">
-            <p th:if="${param.logout}" class="bg-warning">已成功注销</p>
-            <p th:if="${param.error}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.toString()}" class="bg-danger">有错误，请重试</p>
+            <p th:if="${param.logout}" id="logoutMsg" class="bg-warning">已成功注销</p>
+            <p class="bg-danger" id="errorMsg"></p>
             <h2>使用账号密码登录</h2>
-            <form name="form" th:action="@{myauth/login}" method="post" >
+            <form name="myAuthForm" id="myAuthForm" >
                 <div class="form-group">
                     <label for="username">账号</label>
                     <input type="text" class="form-control" id="username" name="username" value="" placeholder="账号"/>
@@ -54,7 +56,7 @@
                         </label>
                     </div>
                 </div>
-                <input type="submit" id="login" value="登录" class="btn btn-primary"/>
+                <input type="button" onclick="subMyAuthForm()" id="login" value="登录" class="btn btn-primary"/>
             </form>
         </div>
     </div>
@@ -68,6 +70,39 @@
         document.getElementById('imageCode').setAttribute("src","getValidateImageCode?"+Math.random());
     }
 
+    function subMyAuthForm() {
+        $('#errorMsg').text('正在验证');
+        $('#logoutMsg').text('');
+        var form=new FormData(document.getElementById("myAuthForm"));
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token =$("meta[name='_csrf']").attr("content");
+        console.log("=========================================");
+        console.log("form---username:"+form.get('username'));
+        console.log("form---password:"+form.get('password'));
+        console.log("form---validateImageCode:"+form.get('validateImageCode'));
+        console.log("form---remember-me:"+form.get('remember-me'));
+        console.log("meta---_csrf:"+token);
+        console.log("meta---_csrf_header:"+header);
+        console.log("=========================================");
+        $.ajax({
+            url:'myAuth/login',
+            type:'post',
+            data:form,
+            processData:false,// jQuery不要去处理发送的数据
+            contentType:false,// jQuery不要去设置Content-Type请求头
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success:function (data) {
+                console.log("state:"+data.state+"---msg:"+data.msg);
+                if(data.state == '300'){
+                    $('#errorMsg').text(data.msg);
+                }else if(data.state == '200'){
+                    window.location.href='/';
+                }
+            }
+        })
+    }
 
 </script>
 </html>

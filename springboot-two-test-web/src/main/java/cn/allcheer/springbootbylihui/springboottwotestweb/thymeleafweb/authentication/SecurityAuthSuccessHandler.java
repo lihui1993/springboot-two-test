@@ -1,7 +1,10 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication;
 
+import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.SimpleResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -19,6 +22,12 @@ public class SecurityAuthSuccessHandler extends SavedRequestAwareAuthenticationS
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-        super.onAuthenticationSuccess(request, response, authentication);
+        SimpleResponse simpleResponse=new SimpleResponse();
+        simpleResponse.setState(200);
+        simpleResponse.setMsg("登录成功");
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
+        response.getWriter().write(new JSONObject(simpleResponse).toString());
+        response.getWriter().close();
+//        super.onAuthenticationSuccess(request, response, authentication);
     }
 }

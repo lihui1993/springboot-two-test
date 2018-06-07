@@ -26,7 +26,7 @@ public class LoginValidateFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         log.info("url:{}",httpServletRequest.getRequestURI());
-        if(httpServletRequest.getRequestURI().equals("/myauth/login")){
+        if(httpServletRequest.getRequestURI().equals("/myAuth/login")){
             LoginImageCode loginImageCode = (LoginImageCode) httpServletRequest.getSession().getAttribute("loginVerificationImageCode");
             String inputValidateCode = httpServletRequest.getParameter("validateImageCode");
             log.info("-----开始校验图片验证码----");
