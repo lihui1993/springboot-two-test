@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_token" th:content="${_csrf.token}"/>
     <meta name="_csrf_header"  th:content="${_csrf.headerName}"/>
     <title>登录页面</title>
     <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -75,7 +75,7 @@
         $('#logoutMsg').text('');
         var form=new FormData(document.getElementById("myAuthForm"));
         var header = $("meta[name='_csrf_header']").attr("content");
-        var token =$("meta[name='_csrf']").attr("content");
+        var token =$("meta[name='_csrf_token']").attr("content");
         console.log("=========================================");
         console.log("form---username:"+form.get('username'));
         console.log("form---password:"+form.get('password'));
