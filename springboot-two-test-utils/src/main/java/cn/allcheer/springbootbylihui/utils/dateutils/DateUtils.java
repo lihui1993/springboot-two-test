@@ -2,8 +2,11 @@ package cn.allcheer.springbootbylihui.utils.dateutils;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
@@ -22,63 +25,38 @@ public class DateUtils {
     public static final String CUSTOM_DATE_TIME_FORMATTER ="yyyyMMddHHmmss";
     public static final String CUSTOM_DATE_TIME_MILLIS_FORMATTER ="yyyyMMddHHmmssSSS";
 
-    public static LocalDateTime getCustomDateFormatterLDTime(){
-        return stringToLocalDateTimeByPattern(getCustomDateFormatterString(), CUSTOM_DATE_FORMATTER);
-    }
-    public static String getCustomDateFormatterString(){
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(CUSTOM_DATE_FORMATTER));
+    public static LocalDate getCustomDateFormatterLDate(){
+        return stringToLocalDateByPattern(getLDTByPattern(CUSTOM_DATE_FORMATTER), CUSTOM_DATE_FORMATTER);
     }
 
-    public static LocalDateTime getCustomTimeFormatterLDTime(){
-        return stringToLocalDateTimeByPattern(getCustomTimeFormatterString(), CUSTOM_TIME_FORMATTER);
+    public static String getLDTByPattern(String pattern){
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(pattern));
     }
-    public static String getCustomTimeFormatterString(){
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(CUSTOM_TIME_FORMATTER));
+
+    public static LocalTime getCustomTimeFormatterLTime(){
+        return stringToLocalTimeByPattern(getLDTByPattern(CUSTOM_TIME_FORMATTER), CUSTOM_TIME_FORMATTER);
     }
 
     public static LocalDateTime getCustomDateTimeFormatterLDTime(){
-        return stringToLocalDateTimeByPattern(getCustomDateTimeFormatterString(), CUSTOM_DATE_TIME_FORMATTER);
-    }
-    public static String getCustomDateTimeFormatterString(){
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(CUSTOM_DATE_TIME_FORMATTER));
+        return stringToLocalDateTimeByPattern(getLDTByPattern(CUSTOM_DATE_TIME_FORMATTER), CUSTOM_DATE_TIME_FORMATTER);
     }
 
-    public static LocalDateTime getCustomDateTimeMillisFormatterLDTime(){
-        return stringToLocalDateTimeByPattern(getCustomDateTimeMillisFormatterString(), CUSTOM_DATE_TIME_MILLIS_FORMATTER);
-    }
-    public static String getCustomDateTimeMillisFormatterString(){
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(CUSTOM_DATE_TIME_MILLIS_FORMATTER));
+    public static LocalDate getDateFormatterLDate(){
+        return stringToLocalDateByPattern(getLDTByPattern(DATE_FORMATTER), DATE_FORMATTER);
     }
 
-    public static LocalDateTime getDateFormatterLDTime(){
-        return stringToLocalDateTimeByPattern(
-                getDateFormatterString(), DATE_FORMATTER);
-    }
-    public static String getDateFormatterString(){
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_FORMATTER));
-    }
-
-    public static LocalDateTime getTimeFormatterLDTime(){
-        return stringToLocalDateTimeByPattern(
-                getTimeFormatterString(), TIME_FORMATTER);
-    }
-    public static String getTimeFormatterString(){
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(TIME_FORMATTER));
+    public static LocalTime getTimeFormatterLTime(){
+        return stringToLocalTimeByPattern(getLDTByPattern(TIME_FORMATTER), TIME_FORMATTER);
     }
 
     public static LocalDateTime getDateTimeFormatterLDTime(){
-        return stringToLocalDateTimeByPattern(getDateTimeFormatterString(), DATE_TIME_FORMATTER);
-    }
-    public static String getDateTimeFormatterString(){
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_FORMATTER));
+        return stringToLocalDateTimeByPattern(getLDTByPattern(DATE_TIME_FORMATTER), DATE_TIME_FORMATTER);
     }
 
     public static LocalDateTime getDateTimeMillisFormatterLDTime(){
-        return stringToLocalDateTimeByPattern(getDateTimeMillisFormatterString(), DATE_TIME_MILLIS_FORMATTER);
+        return stringToLocalDateTimeByPattern(getLDTByPattern(DATE_TIME_MILLIS_FORMATTER), DATE_TIME_MILLIS_FORMATTER);
     }
-    public static String getDateTimeMillisFormatterString(){
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_MILLIS_FORMATTER));
-    }
+
     /**
      * 将LocalDateTime对象转成指定格式的字符串日期
      * @param localDateTime LocalDateTime对象
@@ -96,10 +74,17 @@ public class DateUtils {
      * @param targetPattern （要转换成的）目标日期字符串的格式
      * @return 目标日期字符串
      */
-    public static String convertToLDTSByPattern(String sourceTarget, String sourceTargetPattern, String targetPattern){
-        return LocalDateTime
-                .parse(sourceTarget,DateTimeFormatter.ofPattern(sourceTargetPattern))
-                .format(DateTimeFormatter.ofPattern(targetPattern));
+    public static String convertLDTToStringSByPattern(String sourceTarget, String sourceTargetPattern, String targetPattern){
+        SimpleDateFormat sourceSimpleDateFormat=new SimpleDateFormat(sourceTargetPattern);
+        SimpleDateFormat targetSimpleDateFormat=new SimpleDateFormat(targetPattern);
+        String targetDate=null;
+        try {
+            Date sourceDate = sourceSimpleDateFormat.parse(sourceTarget);
+            targetDate = targetSimpleDateFormat.format(sourceDate);
+        } catch (ParseException e) {
+            log.error("字符串日期格式转换出错：{}",e);
+        }
+        return targetDate;
     }
 
     /**
@@ -146,6 +131,19 @@ public class DateUtils {
     public static LocalDateTime stringToLocalDateTimeByPattern(String sourceTarget,String sourceTargetPattern){
         return LocalDateTime.parse(sourceTarget,DateTimeFormatter.ofPattern(sourceTargetPattern));
     }
+    /**
+     * 将给定的源目标字符串日期转成LocalDate对象
+     * @param sourceTarget 源目标字符串日期
+     * @param sourceTargetPattern 源目标日期格式，DateUtils中的常量列举了常用的格式，建议使用
+     * @return 目标日期--LocalDate对象
+     */
+    public static LocalDate stringToLocalDateByPattern(String sourceTarget,String sourceTargetPattern){
+        return LocalDate.parse(sourceTarget,DateTimeFormatter.ofPattern(sourceTargetPattern));
+    }
+
+    public static LocalTime stringToLocalTimeByPattern(String sourceTarget,String sourceTargetPattern){
+        return LocalTime.parse(sourceTarget,DateTimeFormatter.ofPattern(sourceTargetPattern));
+    }
 
     /**
      * 将Date对象转成系统默认时区的LocalDateTime对象
@@ -176,6 +174,15 @@ public class DateUtils {
         return stringToLocalDateTimeByPattern(
                 localDateTimeToStringByPattern(
                         dateToLocalDateTime(date),pattern ),pattern );
+    }
+
+    /**
+     * 根据时间戳的值转换成LocalDateTime对象
+     * @param instantTime 时间戳的值
+     * @return LocalDateTime对象
+     */
+    public static LocalDateTime convertInstantToLDT(Long instantTime){
+        return LocalDateTime.ofInstant( Instant.ofEpochMilli(instantTime),ZoneId.systemDefault());
     }
 
     /**
