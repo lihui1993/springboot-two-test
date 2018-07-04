@@ -2,9 +2,9 @@ package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authenti
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImageCode;
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.SimpleResponse;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -40,7 +40,7 @@ public class LoginValidateFilter extends OncePerRequestFilter {
                 simpleResponse.setState(300);
                 simpleResponse.setMsg("验证码错误");
                 httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
-                httpServletResponse.getWriter().write(new JSONObject(simpleResponse).toString());
+                httpServletResponse.getWriter().write(JSONObject.toJSONString(simpleResponse));
                 httpServletResponse.getWriter().close();
             }
         }else {

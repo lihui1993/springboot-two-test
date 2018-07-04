@@ -1,8 +1,8 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication;
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.SimpleResponse;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -26,7 +26,7 @@ public class SecurityAuthSuccessHandler extends SavedRequestAwareAuthenticationS
         simpleResponse.setState(200);
         simpleResponse.setMsg("登录成功");
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
-        response.getWriter().write(new JSONObject(simpleResponse).toString());
+        response.getWriter().write(JSONObject.toJSONString(simpleResponse));
         response.getWriter().close();
 //        super.onAuthenticationSuccess(request, response, authentication);
     }

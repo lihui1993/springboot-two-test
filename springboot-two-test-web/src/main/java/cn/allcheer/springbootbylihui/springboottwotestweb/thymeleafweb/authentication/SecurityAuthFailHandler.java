@@ -1,7 +1,7 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication;
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.SimpleResponse;
-import org.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
@@ -30,7 +30,7 @@ public class SecurityAuthFailHandler extends SimpleUrlAuthenticationFailureHandl
             simpleResponse.setMsg(exception.getMessage());
         }
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
-        response.getWriter().write(new JSONObject(simpleResponse).toString());
+        response.getWriter().write(JSONObject.toJSONString(simpleResponse));
         response.getWriter().close();
     }
 }

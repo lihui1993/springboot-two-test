@@ -17,8 +17,8 @@ import cn.allcheer.springbootbylihui.utils.baofoo.rsa.SignatureUtils;
 import cn.allcheer.springbootbylihui.utils.baofoo.util.FormatUtil;
 import cn.allcheer.springbootbylihui.utils.baofoo.util.HttpUtil;
 import cn.allcheer.springbootbylihui.utils.baofoo.util.SecurityUtil;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -97,7 +97,7 @@ public class SinglePay{
 		 RiskItem.put("gameLoginTime", "20");//游戏登录次数，累计最近一个月
 		 RiskItem.put("gameOnlineTime", "100");//游戏在线时长，累计最近一个月
 		//放入风控参数
-		 DateArry.put("risk_item", new JSONObject(RiskItem).toString());
+		 DateArry.put("risk_item", JSONObject.toJSONString(RiskItem));
 		 
 		 DateArry.put("return_url", ReturnUrl);//最多填写三个地址,不同地址用间使用‘|’分隔
 		 
