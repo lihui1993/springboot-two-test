@@ -56,8 +56,8 @@ public class RestfulWebTest {
         HttpPost httppost = new HttpPost(url);
         // 创建参数队列
         List<NameValuePair> formparams = new ArrayList<NameValuePair>();
-        formparams.add(new BasicNameValuePair("phone", "18852951351"));
-        formparams.add(new BasicNameValuePair("pwd", "123456syh"));
+        formparams.add(new BasicNameValuePair("phone", "15921082085"));
+        formparams.add(new BasicNameValuePair("pwd", "dl123456"));
         formparams.add(new BasicNameValuePair("crawl_type", "jjd"));
 
         formparams = sortNameValuePair(formparams);
@@ -96,7 +96,7 @@ public class RestfulWebTest {
         stringBuffer.append("/api/status_poll")
                 .append("?phone=").append("18852951351")
                 .append("&crawl_type=").append("jjd")
-                .append("&uuid=").append("d91c7e547f5511e892d2000c29d380a8");
+                .append("&uuid=").append("c08b30f8802011e8b077000c29d380a8");
         ResponseEntity<String> responseEntity=restTemplate.getForEntity(stringBuffer.toString(),String.class);
         log.info("responseEntity======:Body\n{}---StatusCode:{}---StatusCodeValue:{}"
                 ,responseEntity.getBody(),responseEntity.getStatusCode(),responseEntity.getStatusCodeValue());
@@ -108,7 +108,7 @@ public class RestfulWebTest {
         stringBuffer.append("/api/get_result")
                 .append("?phone=").append("18852951351")
                 .append("&crawl_type=").append("jjd")
-                .append("&uuid=").append("d91c7e547f5511e892d2000c29d380a8");
+                .append("&uuid=").append("c08b30f8802011e8b077000c29d380a8");
         ResponseEntity<String> responseEntity=restTemplate.getForEntity(stringBuffer.toString(),String.class);
         log.info("responseEntity======:Body\n{}---StatusCode:{}---StatusCodeValue:{}"
                 ,responseEntity.getBody(),responseEntity.getStatusCode(),responseEntity.getStatusCodeValue());
