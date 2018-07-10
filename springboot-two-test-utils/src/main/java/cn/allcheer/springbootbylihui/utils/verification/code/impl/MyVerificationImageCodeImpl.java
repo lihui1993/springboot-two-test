@@ -16,10 +16,8 @@ import java.util.Random;
  */
 @Slf4j
 public class MyVerificationImageCodeImpl implements MyVerificationCodeI {
+
     @Autowired
-    public MyVerificationImageCodeImpl(MyConfigurationProperties myConfigurationProperties){
-        this.myConfigurationProperties=myConfigurationProperties;
-    }
     private MyConfigurationProperties myConfigurationProperties;
     @Override
     public LoginImageCode createVerificationCode() {
