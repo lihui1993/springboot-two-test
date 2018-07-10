@@ -4,12 +4,16 @@ import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.Msg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * @author lihui
+ */
 @Controller
 @Slf4j
 public class SimpleSecurityLoginController {
-    @RequestMapping("/")
+
+    @GetMapping("/")
     public String index(Model model){
         Msg msg=new Msg("测试标题","测试内容","额外信息，显示");
         model.addAttribute("msg",msg);

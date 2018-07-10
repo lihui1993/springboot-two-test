@@ -17,8 +17,12 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @AutoConfigureAfter({ThymeleafAutoConfiguration.class})
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Autowired
     private ThymeleafViewResolver thymeleafViewResolver;
+
+    @Autowired
+    public WebMvcConfig(ThymeleafViewResolver thymeleafViewResolver){
+        this.thymeleafViewResolver=thymeleafViewResolver;
+    }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {

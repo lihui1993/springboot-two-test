@@ -3,7 +3,6 @@ package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authenti
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImageCode;
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.SimpleResponse;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
@@ -30,7 +29,7 @@ public class LoginValidateFilter extends OncePerRequestFilter {
             LoginImageCode loginImageCode = (LoginImageCode) httpServletRequest.getSession().getAttribute("loginVerificationImageCode");
             String inputValidateCode = httpServletRequest.getParameter("validateImageCode");
             log.info("-----开始校验图片验证码----");
-            log.info("-----用户输入：{}--系统中：{}",inputValidateCode,loginImageCode.getVolidatcode());
+            log.info("-----用户输入：{}--系统中：{}",inputValidateCode,loginImageCode.getValidatecode());
             if(checkTimeOut(loginImageCode) && checkValidateCode(loginImageCode,inputValidateCode)){
                 log.info("----校验图片验证码通过----");
                 filterChain.doFilter(httpServletRequest,httpServletResponse);
@@ -62,7 +61,7 @@ public class LoginValidateFilter extends OncePerRequestFilter {
 
     private boolean checkValidateCode(LoginImageCode loginImageCode,String inputValidateCode){
         if(StringUtils.hasText( inputValidateCode ) ){
-            if(loginImageCode.getVolidatcode().trim().equals(inputValidateCode.trim())){
+            if(loginImageCode.getValidatecode().trim().equals(inputValidateCode.trim())){
                 log.info("图片验证码字符校验通过");
                 return true;
             }

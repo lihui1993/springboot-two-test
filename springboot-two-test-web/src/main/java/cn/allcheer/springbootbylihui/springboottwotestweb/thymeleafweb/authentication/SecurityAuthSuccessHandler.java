@@ -28,6 +28,5 @@ public class SecurityAuthSuccessHandler extends SavedRequestAwareAuthenticationS
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
         response.getWriter().write(JSONObject.toJSONString(simpleResponse));
         response.getWriter().close();
-//        super.onAuthenticationSuccess(request, response, authentication);
     }
 }

@@ -18,7 +18,7 @@ public class MyMethodSecurityConfig extends GlobalMethodSecurityConfiguration {
     private MyPermissionEvaluator myPermissionEvaluator;
 
     @Autowired
-    public void setCustomPermissionEvaluator(MyPermissionEvaluator myPermissionEvaluator) {
+    public MyMethodSecurityConfig(MyPermissionEvaluator myPermissionEvaluator) {
         this.myPermissionEvaluator = myPermissionEvaluator;
     }
 

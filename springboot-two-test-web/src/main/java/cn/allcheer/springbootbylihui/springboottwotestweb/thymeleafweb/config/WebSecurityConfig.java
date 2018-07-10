@@ -25,18 +25,28 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    public WebSecurityConfig(SecurityAuthSuccessHandler securityAuthSuccessHandler
+            ,SecurityAuthFailHandler securityAuthFailHandler,HikariDataSource hikariDataSource
+            ,MyPermissionEvaluator myPermissionEvaluator){
+        this.securityAuthFailHandler=securityAuthFailHandler;
+        this.securityAuthSuccessHandler=securityAuthSuccessHandler;
+        this.dataSource=hikariDataSource;
+        this.myPermissionEvaluator=myPermissionEvaluator;
+    }
     /**
-     * 注入自定义的认证成功后的处理方法类
+     * 自定义的认证成功后的处理方法类
      */
-    @Autowired
     private SecurityAuthSuccessHandler securityAuthSuccessHandler;
-    @Autowired
+    /**
+     * 自定义的认证失败后的处理方法类
+     */
     private SecurityAuthFailHandler securityAuthFailHandler;
     /**
      * 为了实现记住我功能
      */
-    @Autowired
     private HikariDataSource dataSource;
+
     @Bean
     public PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl jdbcTokenRepository=new JdbcTokenRepositoryImpl();
@@ -46,7 +56,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 注入自定义的PermissionEvaluator
      */
-    @Autowired
     private MyPermissionEvaluator myPermissionEvaluator;
     /**
      * 为了在页面上使用hasPermision(),增加自定义的PermissionEvaluator，使用默认的话，它总是返回false

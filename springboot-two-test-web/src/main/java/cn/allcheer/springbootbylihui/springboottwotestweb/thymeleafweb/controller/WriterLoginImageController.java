@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -21,17 +21,22 @@ import java.io.IOException;
 @Slf4j
 public class WriterLoginImageController {
 
-    @Autowired
+
     private MyVerificationCodeI myVerificationCodeI;
 
-    @RequestMapping("/getValidateImageCode")
+    @Autowired
+    public WriterLoginImageController(MyVerificationCodeI myVerificationCodeI){
+        this.myVerificationCodeI=myVerificationCodeI;
+    }
+
+    @GetMapping("/getValidateImageCode")
     public void writerImageVolidataCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         log.info("请求到了图片验证码生成的headler");
         request.getSession().removeAttribute("loginVerificationImageCode");
         LoginImageCode loginImageCode= myVerificationCodeI.createVerificationCode();
         request.getSession().setAttribute("loginVerificationImageCode",loginImageCode);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-        ImageIO.write((RenderedImage) loginImageCode.getVolidatImage(),"jpeg",response.getOutputStream());
+        ImageIO.write((RenderedImage) loginImageCode.getValidateImage(),"jpeg",response.getOutputStream());
         log.info("请求图片验证码生成结束");
     }
 }
