@@ -1,7 +1,8 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
-import cn.allcheer.springbootbylihui.utils.verification.code.MyVerificationCodeI;
-import cn.allcheer.springbootbylihui.utils.verification.code.impl.MyVerificationImageCodeImpl;
+import cn.allcheer.springbootbylihui.utils.verification.code.VerificationCodeI;
+import cn.allcheer.springbootbylihui.utils.verification.code.impl.ImageVerificationCodeImpl;
+import cn.allcheer.springbootbylihui.utils.verification.code.impl.SmsVerificationCodeImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +12,16 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class VerificationCodeConfig {
-    @Bean
-    @ConditionalOnMissingBean(name = "myVerificationCodeI")
-    public MyVerificationCodeI myVerificationCodeI(){
-        MyVerificationCodeI myVerificationCodeI=new MyVerificationImageCodeImpl();
-        return myVerificationCodeI;
+    @Bean(name = "imageVerificationCodeImpl")
+    @ConditionalOnMissingBean(name = "imageVerificationCodeI")
+    public VerificationCodeI imageVerificationCodeI(){
+        VerificationCodeI verificationCodeI =new ImageVerificationCodeImpl();
+        return verificationCodeI;
+    }
+    @Bean(name = "smsVerificationCodeImpl")
+    @ConditionalOnMissingBean(name = "smsVerificationCodeI")
+    public VerificationCodeI smsVerificationCodeI(){
+        VerificationCodeI verificationCodeI=new SmsVerificationCodeImpl();
+        return verificationCodeI;
     }
 }

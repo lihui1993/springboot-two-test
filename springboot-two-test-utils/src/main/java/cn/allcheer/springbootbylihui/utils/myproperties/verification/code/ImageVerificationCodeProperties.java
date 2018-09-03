@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class MyImageVerificationCode {
+public class ImageVerificationCodeProperties {
     /**
      * 验证码图片的宽度
      */

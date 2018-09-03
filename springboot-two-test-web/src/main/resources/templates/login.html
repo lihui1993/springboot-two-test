@@ -47,7 +47,7 @@
                 <div class="form-group">
                     <label for="validateImageCode">验证码</label>
                     <input type="text" class="form-control"  id="validateImageCode" name="validateImageCode" value="" autocomplete="off" placeholder="验证码"/>
-                    <img th:src="@{getValidateImageCode}"  onclick="changeImageCode()" id="imageCode" title="点击刷新" alt="点击刷新">
+                    <img th:src="@{getValidateCode/image}"  onclick="changeImageCode()" id="imageCode" title="点击刷新" alt="点击刷新">
                 </div>
                 <div class="form-inline">
                     <div class="form-check">
@@ -67,7 +67,7 @@
 </script>
 <script type="text/javascript">
     function changeImageCode() {
-        document.getElementById('imageCode').setAttribute("src","getValidateImageCode?"+Math.random());
+        document.getElementById('imageCode').setAttribute("src","getValidateCode/image?"+Math.random());
     }
 
     function subMyAuthForm() {
@@ -76,14 +76,6 @@
         var form=new FormData(document.getElementById("myAuthForm"));
         var header = $("meta[name='_csrf_header']").attr("content");
         var token =$("meta[name='_csrf_token']").attr("content");
-        console.log("=========================================");
-        console.log("form---username:"+form.get('username'));
-        console.log("form---password:"+form.get('password'));
-        console.log("form---validateImageCode:"+form.get('validateImageCode'));
-        console.log("form---remember-me:"+form.get('remember-me'));
-        console.log("meta---_csrf:"+token);
-        console.log("meta---_csrf_header:"+header);
-        console.log("=========================================");
         $.ajax({
             url:'myAuth/login',
             type:'post',

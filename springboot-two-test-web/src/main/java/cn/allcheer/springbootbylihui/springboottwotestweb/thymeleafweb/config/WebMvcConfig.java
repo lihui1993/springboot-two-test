@@ -17,24 +17,8 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @AutoConfigureAfter({ThymeleafAutoConfiguration.class})
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    private ThymeleafViewResolver thymeleafViewResolver;
-
-    @Autowired
-    public WebMvcConfig(ThymeleafViewResolver thymeleafViewResolver){
-        this.thymeleafViewResolver=thymeleafViewResolver;
-    }
-
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
-    }
-
-    /**
-     * 指定视图控制器，web MVC会使用这个视图解析器来解析视图，不然会找不到视图
-     * @param registry
-     */
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        registry.viewResolver(thymeleafViewResolver);
     }
 }

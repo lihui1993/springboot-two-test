@@ -1,6 +1,6 @@
 package cn.allcheer.springbootbylihui.utils.myproperties;
 
-import cn.allcheer.springbootbylihui.utils.myproperties.verification.code.MyVerificationCode;
+import cn.allcheer.springbootbylihui.utils.myproperties.verification.code.VerificationCodeProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +17,6 @@ import org.springframework.stereotype.Component;
 @Setter
 @Getter
 @ToString
-public class MyConfigurationProperties {
-   private MyVerificationCode myVerificationCode;
+public class CusConfigurationProperties {
+   private VerificationCodeProperties verificationCodeProperties;
 }

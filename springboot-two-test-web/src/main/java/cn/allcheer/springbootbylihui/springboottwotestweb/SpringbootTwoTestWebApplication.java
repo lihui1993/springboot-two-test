@@ -4,6 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+/**
+ * @author lihui
+ */
 @SpringBootApplication
 @ComponentScan(basePackages = "cn.allcheer.springbootbylihui")
 public class SpringbootTwoTestWebApplication {

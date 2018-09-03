@@ -119,7 +119,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
 //          将重新定义过的WebSecurity表达式处理类告诉给HttpSecurity，这样最终在页面使用SpringSecurity方言的hasPermision()时才会有效
             .expressionHandler(defaultWebSecurityExpressionHandler())
-            .antMatchers("/getValidateImageCode","/login","/myAuth/login").permitAll()
+            .antMatchers("/getValidateCode/*","/login","/myAuth/login").permitAll()
 //          任何请求都需要认证
             .anyRequest().authenticated()
             .and()

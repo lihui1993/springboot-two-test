@@ -29,7 +29,7 @@ public class LoginValidateFilter extends OncePerRequestFilter {
             LoginImageCode loginImageCode = (LoginImageCode) httpServletRequest.getSession().getAttribute("loginVerificationImageCode");
             String inputValidateCode = httpServletRequest.getParameter("validateImageCode");
             log.info("-----开始校验图片验证码----");
-            log.info("-----用户输入：{}--系统中：{}",inputValidateCode,loginImageCode.getValidatecode());
+            log.info("-----用户输入：{}--系统中：{}",inputValidateCode,loginImageCode.getValidateCodeString());
             if(checkTimeOut(loginImageCode) && checkValidateCode(loginImageCode,inputValidateCode)){
                 log.info("----校验图片验证码通过----");
                 filterChain.doFilter(httpServletRequest,httpServletResponse);
@@ -61,7 +61,7 @@ public class LoginValidateFilter extends OncePerRequestFilter {
 
     private boolean checkValidateCode(LoginImageCode loginImageCode,String inputValidateCode){
         if(StringUtils.hasText( inputValidateCode ) ){
-            if(loginImageCode.getValidatecode().trim().equals(inputValidateCode.trim())){
+            if(loginImageCode.getValidateCodeString().trim().equals(inputValidateCode.trim())){
                 log.info("图片验证码字符校验通过");
                 return true;
             }

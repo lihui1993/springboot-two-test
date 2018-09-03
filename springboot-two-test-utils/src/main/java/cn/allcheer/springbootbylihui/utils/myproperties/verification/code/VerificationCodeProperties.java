@@ -10,6 +10,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class MyVerificationCode {
-    private MyImageVerificationCode myImageVerificationCode;
+public class VerificationCodeProperties {
+    private ImageVerificationCodeProperties imageVerificationCodeProperties;
+    private SmsVerificationCodeProperties smsVerificationCodeProperties;
 }

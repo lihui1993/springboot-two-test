@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
-import java.time.LocalDateTime;
 
 /**
  * 图片验证码类
@@ -12,20 +11,17 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class LoginImageCode {
+public class LoginImageCode extends ValidateCode {
     private Image validateImage;
-    private String validatecode;
-    private LocalDateTime expireTime;
-
+    public LoginImageCode(){}
     /**
      * 图片验证码的构造函数
      * @param validateImage 图片
-     * @param validatecode 图片中验证码信息
+     * @param validateCodeString 图片中验证码信息
      * @param expireTimeSecond 过期时间，以秒为单位
      */
-    public LoginImageCode(Image validateImage, String validatecode, int expireTimeSecond) {
+    public LoginImageCode(Image validateImage, String validateCodeString, int expireTimeSecond) {
+        super(validateCodeString,expireTimeSecond);
         this.validateImage = validateImage;
-        this.validatecode = validatecode;
-        this.expireTime = LocalDateTime.now().plusSeconds(expireTimeSecond);
     }
 }

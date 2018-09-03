@@ -1,11 +1,9 @@
 package cn.allcheer.springbootbylihui.utils.verification.code.impl;
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImageCode;
-import cn.allcheer.springbootbylihui.utils.myproperties.MyConfigurationProperties;
-import cn.allcheer.springbootbylihui.utils.verification.code.MyVerificationCodeI;
-import lombok.extern.slf4j.Slf4j;
+import cn.allcheer.springbootbylihui.utils.myproperties.CusConfigurationProperties;
+import cn.allcheer.springbootbylihui.utils.verification.code.VerificationCodeI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,15 +12,14 @@ import java.util.Random;
 /**
  * @author lihui
  */
-@Slf4j
-public class MyVerificationImageCodeImpl implements MyVerificationCodeI {
+public class ImageVerificationCodeImpl implements VerificationCodeI {
 
     @Autowired
-    private MyConfigurationProperties myConfigurationProperties;
+    private CusConfigurationProperties cusConfigurationProperties;
     @Override
     public LoginImageCode createVerificationCode() {
-        int width=myConfigurationProperties.getMyVerificationCode().getMyImageVerificationCode().getLoginImageCodeWidth();
-        int height=myConfigurationProperties.getMyVerificationCode().getMyImageVerificationCode().getLoginImageCodeHeight();
+        int width= cusConfigurationProperties.getVerificationCodeProperties().getImageVerificationCodeProperties().getLoginImageCodeWidth();
+        int height= cusConfigurationProperties.getVerificationCodeProperties().getImageVerificationCodeProperties().getLoginImageCodeHeight();
         BufferedImage bufferedImage=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
         Graphics graphics=bufferedImage.getGraphics();
         Random random = new Random();
@@ -41,22 +38,23 @@ public class MyVerificationImageCodeImpl implements MyVerificationCodeI {
 
         StringBuffer sRand = new StringBuffer();
 
-        for (int i = 0; i < myConfigurationProperties.getMyVerificationCode().getMyImageVerificationCode().getLoginImageCodeLength();) {
+
+        for (int i = 0; i < cusConfigurationProperties.getVerificationCodeProperties().getImageVerificationCodeProperties().getLoginImageCodeLength();) {
             char c= (char) random.nextInt(122);
-            if( !((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122 )) ){
+            boolean isNumber= c >= 48 && c <= 57;
+            boolean isLowerCase= c >= 65 && c <= 90;
+            boolean isUpperCase= c >= 97 && c <= 122;
+            if( !( isNumber || isLowerCase || isUpperCase) ){
                 continue;
             }
-            log.info("c is ---{}",String.valueOf(c));
-            if(StringUtils.hasText( String.valueOf(c).trim() )){
-                sRand.append(c);
-                graphics.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
-                graphics.drawString(String.valueOf(c), myConfigurationProperties.getMyVerificationCode().getMyImageVerificationCode().getLoginImageCodeXBaseCoordinate() * i + 36, myConfigurationProperties.getMyVerificationCode().getMyImageVerificationCode().getLoginImageCodeYCoordinate());
-                ++i;
-            }
+            sRand.append(c);
+            graphics.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
+            graphics.drawString(String.valueOf(c), cusConfigurationProperties.getVerificationCodeProperties().getImageVerificationCodeProperties().getLoginImageCodeXBaseCoordinate() * i + 36, cusConfigurationProperties.getVerificationCodeProperties().getImageVerificationCodeProperties().getLoginImageCodeYCoordinate());
+            ++i;
         }
 
         graphics.dispose();
-        return  new LoginImageCode(bufferedImage,sRand.toString(),myConfigurationProperties.getMyVerificationCode().getMyImageVerificationCode().getLoginImageCodeExpireTimeSecond());
+        return  new LoginImageCode(bufferedImage,sRand.toString(), cusConfigurationProperties.getVerificationCodeProperties().getImageVerificationCodeProperties().getLoginImageCodeExpireTimeSecond());
     }
 
     private Color getRandColor(int fc, int bc) {
