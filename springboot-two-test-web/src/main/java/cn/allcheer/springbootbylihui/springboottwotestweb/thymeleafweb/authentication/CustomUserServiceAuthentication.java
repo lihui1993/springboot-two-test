@@ -46,8 +46,8 @@ public class CustomUserServiceAuthentication implements UserDetailsService {
             sysRole.getResources().stream().forEach(sysResource -> roleResource.add(sysResource.getResourceUrl()));
         });
         //
-        MyCustomUser myCustomUser=new MyCustomUser(sysUser.getUserName(), passwordEncoder.encode(sysUser.getPassWord()), grantedAuthorityList);
-        myCustomUser.setRoleResource(roleResource);
-        return myCustomUser;
+        CustomSecurityUser customSecurityUser =new CustomSecurityUser(sysUser.getUserName(), passwordEncoder.encode(sysUser.getPassWord()), grantedAuthorityList);
+        customSecurityUser.setRoleResource(roleResource);
+        return customSecurityUser;
     }
 }

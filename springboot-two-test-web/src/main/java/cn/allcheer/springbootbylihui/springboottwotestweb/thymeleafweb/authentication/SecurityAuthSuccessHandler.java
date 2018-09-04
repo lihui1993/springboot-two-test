@@ -4,6 +4,7 @@ import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.SimpleRes
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -23,7 +24,7 @@ public class SecurityAuthSuccessHandler extends SavedRequestAwareAuthenticationS
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         SimpleResponse simpleResponse=new SimpleResponse();
-        simpleResponse.setState(200);
+        simpleResponse.setState(HttpStatus.OK.value());
         simpleResponse.setMsg("登录成功");
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
         response.getWriter().write(JSONObject.toJSONString(simpleResponse));

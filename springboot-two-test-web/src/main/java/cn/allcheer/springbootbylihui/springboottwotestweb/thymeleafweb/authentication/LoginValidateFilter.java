@@ -1,9 +1,11 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication;
 
+import cn.allcheer.springbootbylihui.myproperties.CusConfigurationProperties;
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.LoginImageCode;
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.SimpleResponse;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,11 +23,13 @@ import java.time.LocalDateTime;
 @Slf4j
 public class LoginValidateFilter extends OncePerRequestFilter {
 
+    @Autowired
+    private CusConfigurationProperties cusConfigurationProperties;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         log.info("url:{}",httpServletRequest.getRequestURI());
-        if(httpServletRequest.getRequestURI().equals("/myAuth/login")){
+        if(httpServletRequest.getRequestURI().equals(cusConfigurationProperties.getCusSecurityProperties().getLoginProcessingUrl())){
             LoginImageCode loginImageCode = (LoginImageCode) httpServletRequest.getSession().getAttribute("loginVerificationImageCode");
             String inputValidateCode = httpServletRequest.getParameter("validateImageCode");
             log.info("-----开始校验图片验证码----");
@@ -54,7 +58,7 @@ public class LoginValidateFilter extends OncePerRequestFilter {
             log.info("图片验证码未过期");
             return true;
         }else {
-            log.info("图片验证码已过期");
+            log.error("图片验证码已过期");
             return false;
         }
     }
@@ -66,7 +70,7 @@ public class LoginValidateFilter extends OncePerRequestFilter {
                 return true;
             }
         }
-        log.info("图片验证码字符校验未通过");
+        log.error("图片验证码字符校验未通过");
         return false;
     }
 }

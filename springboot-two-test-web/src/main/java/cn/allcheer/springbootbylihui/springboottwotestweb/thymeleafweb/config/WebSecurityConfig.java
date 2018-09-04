@@ -1,6 +1,8 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
+import cn.allcheer.springbootbylihui.myproperties.CusConfigurationProperties;
 import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.*;
+import cn.allcheer.springbootbylihui.utils.constants.UrlConstants;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,12 +30,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public WebSecurityConfig(SecurityAuthSuccessHandler securityAuthSuccessHandler
             ,SecurityAuthFailHandler securityAuthFailHandler,HikariDataSource hikariDataSource
-            ,MyPermissionEvaluator myPermissionEvaluator){
+            ,MyPermissionEvaluator myPermissionEvaluator,CusConfigurationProperties cusConfigurationProperties){
         this.securityAuthFailHandler=securityAuthFailHandler;
         this.securityAuthSuccessHandler=securityAuthSuccessHandler;
         this.dataSource=hikariDataSource;
         this.myPermissionEvaluator=myPermissionEvaluator;
+        this.cusConfigurationProperties=cusConfigurationProperties;
     }
+    private CusConfigurationProperties cusConfigurationProperties;
     /**
      * 自定义的认证成功后的处理方法类
      */
@@ -64,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler(){
         DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler=new DefaultWebSecurityExpressionHandler();
-        defaultWebSecurityExpressionHandler.setDefaultRolePrefix("ROLE_");
+        defaultWebSecurityExpressionHandler.setDefaultRolePrefix(cusConfigurationProperties.getCusSecurityProperties().getWebSecurityExpressionHandlerRolePrefix());
         defaultWebSecurityExpressionHandler.setTrustResolver(new AuthenticationTrustResolverImpl());
         defaultWebSecurityExpressionHandler.setPermissionEvaluator(myPermissionEvaluator);
         return defaultWebSecurityExpressionHandler;
@@ -119,14 +123,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
 //          将重新定义过的WebSecurity表达式处理类告诉给HttpSecurity，这样最终在页面使用SpringSecurity方言的hasPermision()时才会有效
             .expressionHandler(defaultWebSecurityExpressionHandler())
-            .antMatchers("/getValidateCode/*","/login","/myAuth/login").permitAll()
+            .antMatchers(cusConfigurationProperties.getCusSecurityProperties().getGetValidateCodeUrl(),
+                    cusConfigurationProperties.getCusSecurityProperties().getLoginPage(),
+                    cusConfigurationProperties.getCusSecurityProperties().getLoginProcessingUrl()).permitAll()
 //          任何请求都需要认证
             .anyRequest().authenticated()
             .and()
 //          定制登录行为
             .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/myAuth/login")
+                .loginPage(cusConfigurationProperties.getCusSecurityProperties().getLoginPage())
+                .loginProcessingUrl(cusConfigurationProperties.getCusSecurityProperties().getLoginProcessingUrl())
                 .failureHandler(securityAuthFailHandler)
 //               登录认证成功后的处理方法类
                 .successHandler(securityAuthSuccessHandler)
@@ -134,7 +140,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                添加记住我功能
             .rememberMe()
                 .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(300)
+                .tokenValiditySeconds(cusConfigurationProperties.getCusSecurityProperties().getTokenValiditySeconds())
                 .userDetailsService(customUserService())
                 .and()
 //          定制注销行为
@@ -151,6 +157,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         //设置忽略哪些路径下的资源
-        web.ignoring().antMatchers("/jQuery/**","/bootstrap/**");
+        web.ignoring().antMatchers(UrlConstants.WEB_IGNORING_JQUERY_SOURCE_PATH,UrlConstants.WEB_IGNORING_BOOTSTRAP_SOURCE_PATH);
     }
 }

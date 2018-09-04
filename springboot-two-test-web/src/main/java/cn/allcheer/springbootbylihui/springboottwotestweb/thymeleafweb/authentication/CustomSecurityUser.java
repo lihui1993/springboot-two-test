@@ -12,11 +12,11 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-class MyCustomUser extends User {
+class CustomSecurityUser extends User {
 
     private List<String> roleResource;
 
-    public MyCustomUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public CustomSecurityUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
     }
 }

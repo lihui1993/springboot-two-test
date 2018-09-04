@@ -1,8 +1,8 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
-import cn.allcheer.springbootbylihui.utils.verification.code.VerificationCodeI;
-import cn.allcheer.springbootbylihui.utils.verification.code.impl.ImageVerificationCodeImpl;
-import cn.allcheer.springbootbylihui.utils.verification.code.impl.SmsVerificationCodeImpl;
+import cn.allcheer.springbootbylihui.verificationcode.VerificationCodeI;
+import cn.allcheer.springbootbylihui.verificationcode.impl.ImageVerificationCodeImpl;
+import cn.allcheer.springbootbylihui.verificationcode.impl.SmsVerificationCodeImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

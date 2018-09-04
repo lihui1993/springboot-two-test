@@ -12,8 +12,8 @@ public class MyPermissionEvaluator implements PermissionEvaluator {
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
-        MyCustomUser myCustomUser= (MyCustomUser) authentication.getPrincipal();
-        List<String> resources=myCustomUser.getRoleResource();
+        CustomSecurityUser customSecurityUser = (CustomSecurityUser) authentication.getPrincipal();
+        List<String> resources= customSecurityUser.getRoleResource();
         if( resources.contains(targetDomainObject.toString()) ){
             return true;
         }

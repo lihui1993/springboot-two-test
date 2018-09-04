@@ -23,7 +23,7 @@ public class SecurityAuthFailHandler extends SimpleUrlAuthenticationFailureHandl
                                         HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
         SimpleResponse simpleResponse=new SimpleResponse();
-        simpleResponse.setState(300);
+        simpleResponse.setState(512);
         if(exception instanceof BadCredentialsException){
             simpleResponse.setMsg("密码错误");
         }else {

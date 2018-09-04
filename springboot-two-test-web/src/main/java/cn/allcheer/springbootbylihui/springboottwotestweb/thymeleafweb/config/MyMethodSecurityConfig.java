@@ -1,5 +1,6 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
+import cn.allcheer.springbootbylihui.myproperties.CusConfigurationProperties;
 import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.MyPermissionEvaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
@@ -16,15 +17,17 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 public class MyMethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
     private MyPermissionEvaluator myPermissionEvaluator;
-
+    private CusConfigurationProperties cusConfigurationProperties;
     @Autowired
-    public MyMethodSecurityConfig(MyPermissionEvaluator myPermissionEvaluator) {
+    public MyMethodSecurityConfig(MyPermissionEvaluator myPermissionEvaluator,CusConfigurationProperties cusConfigurationProperties) {
         this.myPermissionEvaluator = myPermissionEvaluator;
+        this.cusConfigurationProperties=cusConfigurationProperties;
     }
 
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler() {
         DefaultMethodSecurityExpressionHandler defaultMethodSecurityExpressionHandler=new DefaultMethodSecurityExpressionHandler();
+        defaultMethodSecurityExpressionHandler.setDefaultRolePrefix(cusConfigurationProperties.getCusSecurityProperties().getWebSecurityExpressionHandlerRolePrefix());
         defaultMethodSecurityExpressionHandler.setPermissionEvaluator(myPermissionEvaluator);
         return defaultMethodSecurityExpressionHandler;
     }

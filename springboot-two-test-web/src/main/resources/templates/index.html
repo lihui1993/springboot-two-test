@@ -34,10 +34,10 @@
         <div class="starter-template">
             <h1 th:text="${msg.title}"></h1>
             <p class="bg-primary" th:text="${msg.content}"></p>
-            <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <div sec:authorize="hasRole('ADMIN')">
                 <p class="bg-info" th:text="${msg.etraInfo}"></p>
             </div>
-            <div sec:authorize="hasRole('ROLE_USER')">
+            <div sec:authorize="hasRole('USER')">
                 <p class="bg-info">无更多信息显示</p>
             </div>
             <div sec:authorize="hasPermission('/CE_SHI','')">

@@ -1,8 +1,8 @@
-package cn.allcheer.springbootbylihui.utils.verification.code.impl;
+package cn.allcheer.springbootbylihui.verificationcode.impl;
 
+import cn.allcheer.springbootbylihui.myproperties.CusConfigurationProperties;
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.ValidateCode;
-import cn.allcheer.springbootbylihui.utils.myproperties.CusConfigurationProperties;
-import cn.allcheer.springbootbylihui.utils.verification.code.VerificationCodeI;
+import cn.allcheer.springbootbylihui.verificationcode.VerificationCodeI;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;

@@ -1,4 +1,4 @@
-package cn.allcheer.springbootbylihui.utils.verification.code;
+package cn.allcheer.springbootbylihui.verificationcode;
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.ValidateCode;
 

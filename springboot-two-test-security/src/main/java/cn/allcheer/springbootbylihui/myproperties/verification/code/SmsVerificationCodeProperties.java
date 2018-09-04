@@ -1,4 +1,4 @@
-package cn.allcheer.springbootbylihui.utils.myproperties.verification.code;
+package cn.allcheer.springbootbylihui.myproperties.verification.code;
 
 import lombok.Getter;
 import lombok.Setter;
