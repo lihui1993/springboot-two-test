@@ -87,7 +87,7 @@
             },
             success:function (data) {
                 console.log("state:"+data.state+"---msg:"+data.msg);
-                if(data.state == '300'){
+                if(data.state == '300' || data.state=='512'){
                     $('#errorMsg').text(data.msg);
                 }else if(data.state == '200'){
                     window.location.href='/';

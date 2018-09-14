@@ -1,7 +1,7 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
-import cn.allcheer.springbootbylihui.myproperties.CusConfigurationProperties;
 import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.MyPermissionEvaluator;
+import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.security.customproperties.CusConfigurationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;

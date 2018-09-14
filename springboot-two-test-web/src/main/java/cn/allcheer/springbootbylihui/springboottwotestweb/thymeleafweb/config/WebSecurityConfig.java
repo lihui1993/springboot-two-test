@@ -1,7 +1,7 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
-import cn.allcheer.springbootbylihui.myproperties.CusConfigurationProperties;
 import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authentication.*;
+import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.security.customproperties.CusConfigurationProperties;
 import cn.allcheer.springbootbylihui.utils.constants.UrlConstants;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,7 +119,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .addFilterBefore(new LoginValidateFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new LoginValidateCodeFilter(), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
 //          将重新定义过的WebSecurity表达式处理类告诉给HttpSecurity，这样最终在页面使用SpringSecurity方言的hasPermision()时才会有效
             .expressionHandler(defaultWebSecurityExpressionHandler())

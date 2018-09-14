@@ -12,7 +12,6 @@
 		<module>springboot-two-test-web</module>
 		<module>springboot-two-test-dal</module>
         <module>springboot-two-test-utils</module>
-        <module>springboot-two-test-security</module>
     </modules>
 
 	<parent>

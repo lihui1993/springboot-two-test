@@ -1,8 +1,8 @@
 package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.config;
 
-import cn.allcheer.springbootbylihui.verificationcode.VerificationCodeI;
-import cn.allcheer.springbootbylihui.verificationcode.impl.ImageVerificationCodeImpl;
-import cn.allcheer.springbootbylihui.verificationcode.impl.SmsVerificationCodeImpl;
+import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.security.verificationcodeprocessing.impl.ImageVerificationCodeGeneratorImpl;
+import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.security.verificationcodeprocessing.impl.SmsVerificationCodeGeneratorImpl;
+import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.security.verificationcodeprocessing.VerificationCodeGenerator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,16 +12,16 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class VerificationCodeConfig {
-    @Bean(name = "imageVerificationCodeImpl")
+    @Bean(name = "imageVerificationCodeGenerator")
     @ConditionalOnMissingBean(name = "imageVerificationCodeI")
-    public VerificationCodeI imageVerificationCodeI(){
-        VerificationCodeI verificationCodeI =new ImageVerificationCodeImpl();
-        return verificationCodeI;
+    public VerificationCodeGenerator imageVerificationCodeGenerator(){
+        VerificationCodeGenerator verificationCodeGenerator =new ImageVerificationCodeGeneratorImpl();
+        return verificationCodeGenerator;
     }
-    @Bean(name = "smsVerificationCodeImpl")
+    @Bean(name = "smsVerificationCodeGenerator")
     @ConditionalOnMissingBean(name = "smsVerificationCodeI")
-    public VerificationCodeI smsVerificationCodeI(){
-        VerificationCodeI verificationCodeI=new SmsVerificationCodeImpl();
-        return verificationCodeI;
+    public VerificationCodeGenerator smsVerificationCodeGenerator(){
+        VerificationCodeGenerator verificationCodeGenerator =new SmsVerificationCodeGeneratorImpl();
+        return verificationCodeGenerator;
     }
 }

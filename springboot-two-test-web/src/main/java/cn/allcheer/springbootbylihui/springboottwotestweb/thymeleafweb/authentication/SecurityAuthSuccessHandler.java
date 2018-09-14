@@ -2,8 +2,6 @@ package cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.authenti
 
 import cn.allcheer.springbootbylihui.springboottwotestdal.domain.model.SimpleResponse;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
