@@ -5,6 +5,7 @@ import cn.allcheer.springbootbylihui.springboottwotestweb.thymeleafweb.security.
 import cn.allcheer.springbootbylihui.utils.constants.UrlConstants;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
@@ -123,10 +124,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
 //          将重新定义过的WebSecurity表达式处理类告诉给HttpSecurity，这样最终在页面使用SpringSecurity方言的hasPermision()时才会有效
             .expressionHandler(defaultWebSecurityExpressionHandler())
+            .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
             .antMatchers(cusConfigurationProperties.getCusSecurityProperties().getGetValidateCodeUrl(),
                     cusConfigurationProperties.getCusSecurityProperties().getLoginPage(),
-                    cusConfigurationProperties.getCusSecurityProperties().getLoginProcessingUrl(),
-                    "/actuator/*").permitAll()
+                    cusConfigurationProperties.getCusSecurityProperties().getLoginProcessingUrl()).permitAll()
 //          任何请求都需要认证
             .anyRequest().authenticated()
             .and()
