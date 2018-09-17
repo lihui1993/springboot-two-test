@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author lihui
  */
 @Configuration
-@AutoConfigureAfter({ThymeleafAutoConfiguration.class})
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override

@@ -146,9 +146,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(customUserService())
                 .and()
 //          定制注销行为
-            .logout()
-//          注销后清除认证信息
-            .clearAuthentication(true);
+            .logout();
     }
 
     /**

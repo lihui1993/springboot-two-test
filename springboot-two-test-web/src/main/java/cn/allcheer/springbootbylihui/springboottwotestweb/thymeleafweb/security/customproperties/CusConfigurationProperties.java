@@ -17,6 +17,6 @@ import org.springframework.stereotype.Component;
 @Getter
 @ToString
 public class CusConfigurationProperties {
-   private VerificationCodeProperties verificationCodeProperties;
-   private CusSecurityProperties cusSecurityProperties;
+   private VerificationCodeProperties verificationCodeProperties=new VerificationCodeProperties();
+   private CusSecurityProperties cusSecurityProperties=new CusSecurityProperties();
 }

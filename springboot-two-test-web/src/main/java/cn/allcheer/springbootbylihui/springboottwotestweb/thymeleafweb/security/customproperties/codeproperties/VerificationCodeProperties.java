@@ -11,6 +11,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class VerificationCodeProperties {
-    private ImageVerificationCodeProperties imageVerificationCodeProperties;
-    private SmsVerificationCodeProperties smsVerificationCodeProperties;
+    private ImageVerificationCodeProperties imageVerificationCodeProperties=new ImageVerificationCodeProperties();
+    private SmsVerificationCodeProperties smsVerificationCodeProperties=new SmsVerificationCodeProperties();
 }
