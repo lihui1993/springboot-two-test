@@ -125,7 +125,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .expressionHandler(defaultWebSecurityExpressionHandler())
             .antMatchers(cusConfigurationProperties.getCusSecurityProperties().getGetValidateCodeUrl(),
                     cusConfigurationProperties.getCusSecurityProperties().getLoginPage(),
-                    cusConfigurationProperties.getCusSecurityProperties().getLoginProcessingUrl()).permitAll()
+                    cusConfigurationProperties.getCusSecurityProperties().getLoginProcessingUrl(),
+                    "/actuator/*").permitAll()
 //          任何请求都需要认证
             .anyRequest().authenticated()
             .and()
