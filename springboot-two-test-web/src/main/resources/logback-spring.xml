@@ -44,7 +44,7 @@
     <!--更加庞大，因为记录了对ResultSet对象的所有调用-->
     <logger name="jdbc.resultset" level="OFF" addtivity="true" />
     <!--仅记录SQL。在预准备语句中执行的SQL会自动显示，其绑定参数将替换为该位置绑定的数据，从而大大提高了可读性-->
-    <logger name="jdbc.sqlonly" level="INFO" addtivity="true" />
+    <logger name="jdbc.sqlonly" level="OFF" addtivity="true" />
     <!--记录SQL，包括SQL执行时间的时间统计信息-->
     <logger name="jdbc.sqltiming" level="INFO" addtivity="true" />
 

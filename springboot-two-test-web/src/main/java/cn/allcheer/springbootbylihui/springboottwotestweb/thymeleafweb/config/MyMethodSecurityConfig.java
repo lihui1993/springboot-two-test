@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Globa
  * 一般用在Controller的方法上
  * @author lihui
  */
-@EnableGlobalMethodSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MyMethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
     private MyPermissionEvaluator myPermissionEvaluator;
